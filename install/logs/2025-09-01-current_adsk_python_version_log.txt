@@ -1,21 +1,34 @@
   Analyzing directory: /opt/Autodesk/python
   Sorted contents of /opt/Autodesk/python:
-  2026.1.pr224
-  2026.1.pr222
-  2026.1.pr221
-  2026.1.pr220
-  2026.pr219
+  2026.1
+  2026
   
-  The highest version is: 2026.1.pr224
+  The highest version is: 2026.1
   
-  Python version 2026.1.pr224 is available and executable
+  Python version 2026.1 is available and executable
   Reading preference file:
-  /home/pman/workspace/GitHub/phil-man-git-hub/LOGIK-PROJEKT/install/current_adsk_python_version.pref
+  /Users/nbjoin/Documents/workspace/GitHub/bjoin-studio/LOGIK-PROJEKT-BJOIN-STUDIO/install/current_adsk_python_version.pref
   Preference file loaded:
   /opt/Autodesk/python/2026.1.pr224/bin/python
+  Updated preference file with:
+  /opt/Autodesk/python/2026.1/bin/python
+
++ --------------------------------------------------------------------------- +
+  Analyzing directory: /opt/Autodesk/python
+  Sorted contents of /opt/Autodesk/python:
+  2026.1
+  2026
+  
+  The highest version is: 2026.1
+  
+  Python version 2026.1 is available and executable
+  Reading preference file:
+  /Users/nbjoin/Documents/workspace/GitHub/bjoin-studio/LOGIK-PROJEKT-BJOIN-STUDIO/install/current_adsk_python_version.pref
+  Preference file loaded:
+  /opt/Autodesk/python/2026.1/bin/python
   No update needed.
   Preference file already contains the latest version:
-  /opt/Autodesk/python/2026.1.pr224/bin/python
+  /opt/Autodesk/python/2026.1/bin/python
 
 + --------------------------------------------------------------------------- +
   Creating macOS application: LOGIK-PROJEKT-2026.1.0.app
@@ -29,7 +42,7 @@
 + --------------------------------------------------------------------------- +
   Creating desktop entry file: LOGIK-PROJEKT.desktop
   Making the file executable: LOGIK-PROJEKT.desktop
-  Moving the file to ~/.local/share/applications/
+  This script is not configured to move files on macOS (Darwin).
   File 'LOGIK-PROJEKT.desktop' has been created and made executable.
 
 + --------------------------------------------------------------------------- +
