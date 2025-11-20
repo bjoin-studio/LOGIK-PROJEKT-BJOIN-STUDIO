@@ -1,0 +1,56 @@
+# Production NFS Automount Configuration for bjoin-studio
+# File: /etc/auto_nfs
+# Modified: 2025-11-19
+# Version: 2.0 - With nconnect=16 optimization
+
+# ASUSSTOR 24 TB NAS (10GbE - Legacy, being phased out)
+/mnt/ASUSSTOR           -fstype=nfs,rw,resvport,nfsvers=4      10.20.33.86:/volume1/BJOINFILMS_NAS
+
+# QNAP 100GbE NAS - Production Storage (Optimized with nconnect=16)
+# NVMe RAID 0 - 12 striped drives - 18TB capacity
+# Performance: 5.13 GB/s write, 5.88 GB/s read (16 parallel streams)
+/mnt/production-scratch -fstype=nfs,vers=4.1,rw,resvport,tcp,hard,rsize=1048576,wsize=1048576,noatime,nodiratime,actimeo=120,nconnect=16    10.10.10.11:/production-scratch
+
+# QNAP 100GbE NAS - Archive Storage (Optimized with nconnect=16)  
+# HDD mirrors - 8 vdevs - 100TB capacity
+# Performance: 1.8 GB/s write, 17.1 GB/s read (cached, will normalize to ~2 GB/s when full)
+/mnt/job-folder-archive -fstype=nfs,vers=4.1,rw,resvport,tcp,hard,rsize=1048576,wsize=1048576,noatime,nodiratime,actimeo=120,nconnect=16    10.10.10.11:/job-folder-archive
+
+# Mount Options Explained:
+# -fstype=nfs          - NFS filesystem type
+# vers=4.1             - NFS protocol version 4.1 (modern, secure, performant)
+# rw                   - Read-write access
+# resvport             - Use privileged source port (security)
+# tcp                  - Use TCP protocol (reliable for high-speed networks)
+# hard                 - Hard mount (wait for server if unavailable)
+# rsize=1048576        - Read buffer size 1MB (optimal for 100GbE)
+# wsize=1048576        - Write buffer size 1MB (optimal for 100GbE)
+# noatime              - Don't update access times on files (performance)
+# nodiratime           - Don't update access times on directories (performance)
+# actimeo=120          - Attribute cache timeout 120 seconds (performance)
+# nconnect=16          - Use 16 TCP connections (CRITICAL for parallel I/O performance)
+
+# Key Insight:
+# The nconnect=16 option is the most important performance optimization,
+# providing 2.8x write and 3.5x read improvement for parallel workloads
+# like Flame multi-frame rendering.
+
+# Deployment Notes:
+# 1. Copy this file to /etc/auto_nfs
+# 2. Ensure /etc/auto.master contains: /-  auto_nfs
+# 3. Create mount points: sudo mkdir -p /mnt/{production-scratch,job-folder-archive}
+# 4. Restart autofs: sudo systemctl restart autofs
+# 5. Test mounts: ls /mnt/production-scratch
+
+# Symbolic Links:
+# /PROJEKTS -> /mnt/production-scratch/PROJEKTS
+
+# Performance Testing Commands:
+# Single stream test:
+# dd if=/dev/zero of=/mnt/production-scratch/test.dat bs=50M count=1000 conv=fdatasync
+#
+# Parallel test (4 streams):
+# for i in {1..4}; do dd if=/dev/zero of=/mnt/production-scratch/test_$i.dat bs=50M count=250 2>/dev/null & done; wait
+#
+# Parallel test (16 streams - maximum):
+# for i in {1..16}; do dd if=/dev/zero of=/mnt/production-scratch/test_$i.dat bs=50M count=60 2>/dev/null & done; wait

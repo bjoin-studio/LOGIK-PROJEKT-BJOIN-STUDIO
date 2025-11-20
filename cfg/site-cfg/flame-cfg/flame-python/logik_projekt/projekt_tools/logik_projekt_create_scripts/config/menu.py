@@ -33,6 +33,10 @@
 
 # filename: menu.py
 
+# Multi-environment script for LOGIK-PROJEKT round-trip integration
+# This script is designed to work in both Nuke and Flame environments
+# When loaded in Flame, Nuke-specific functionality is gracefully skipped
+
 # Installation:
 # Windows: C:\Users\YourUsername\.nuke\menu.py
 # macOS: /Users/YourUsername/.nuke/menu.py
@@ -42,10 +46,46 @@
 # This section defines the import statements and directory paths.
 # ========================================================================== #
 
+import os
 import os.path
-import nuke
-import nukescripts
 import re
+import sys
+
+# Detect the current DCC environment
+def detect_environment():
+    """Detect if we're running in Nuke, Flame, or another environment"""
+    # Check for Nuke-specific environment variables
+    if os.environ.get('NUKE_PATH') or 'nuke' in sys.executable.lower():
+        return 'nuke'
+    
+    # Check for Flame-specific modules or environment
+    try:
+        import flame
+        return 'flame'
+    except ImportError:
+        pass
+    
+    # Check Flame environment variables
+    if (os.environ.get('DL_SOFTWARE') == 'flame' or 
+        os.environ.get('FLAME_PROJECT') or
+        'flame' in sys.executable.lower()):
+        return 'flame'
+    
+    return 'unknown'
+
+CURRENT_ENVIRONMENT = detect_environment()
+
+# Only import nuke modules if we're running in Nuke environment
+try:
+    import nuke
+    import nukescripts
+    NUKE_AVAILABLE = True
+except ImportError:
+    # Not running in Nuke - this is expected in Flame environment
+    NUKE_AVAILABLE = False
+    if CURRENT_ENVIRONMENT == 'nuke':
+        # This would be unexpected - Nuke environment but modules not available
+        print(f"Warning: Detected Nuke environment but unable to import nuke modules")
 
 try:
     from PySide6 import QtWidgets, QtCore, QtGui
@@ -56,6 +96,9 @@ except ImportError:
 def update_write_node_version():
   
     """Increments the versioning in the file paths of all write nodes"""
+    if not NUKE_AVAILABLE:
+        return
+        
     root_name = nuke.toNode("root").name()
 
     # Get the version number from the script name
@@ -96,8 +139,9 @@ def update_write_node_version():
                     file_knob.setValue(new_path)
 
 
-# Add a callback to the script_save event
-nuke.addOnScriptSave(update_write_node_version)
+# Add a callback to the script_save event - only in Nuke environment
+if NUKE_AVAILABLE:
+    nuke.addOnScriptSave(update_write_node_version)
 
 # ========================================================================== #
 # C2 A9 32 30 32 34 2D 4D 41 4E 2D 4D 41 44 45 2D 4D 45 4B 41 4E 59 5A 4D 53 #
