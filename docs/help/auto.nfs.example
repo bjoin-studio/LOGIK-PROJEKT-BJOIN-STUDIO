@@ -1,0 +1,36 @@
+# filename: /etc/auto.nfs
+# modified: 2025-11-19
+# Rocky Linux 9.5 NFS automount configuration
+# Based on working macOS configuration
+
+# ASUSSTOR 24 TB NAS on network 10.20.33.86
+# Standard NFS4 mount with basic options
+ASUSSTOR           -fstype=nfs,vers=4,rw,resvport      10.20.33.86:/volume1/BJOINFILMS_NAS
+
+# QNAP on 100GbE network (10.10.10.11)
+# Optimized for high-speed network with larger buffers
+# 
+# Key optimizations for 100GbE:
+# - vers=4.1: NFS version 4.1 for best performance
+# - rsize=1048576,wsize=1048576: 1MB read/write buffers for high throughput
+# - tcp: Use TCP protocol (more reliable for high-speed networks)
+# - hard: Keep trying if server is unreachable (prevents data loss)
+# - intr: Allow interruption of NFS calls
+# - async: Async writes for better performance (use with caution in production)
+# - noatime,nodiratime: Don't update access times (improves performance)
+# - actimeo=120: Cache attributes for 120 seconds (reduces network chatter)
+# - readahead=128: Not directly available in Linux mount options (handled by kernel)
+
+production-scratch -fstype=nfs,vers=4.1,rw,resvport,tcp,hard,intr,rsize=1048576,wsize=1048576,async,noatime,nodiratime,actimeo=120    10.10.10.11:/production-scratch
+
+job-folder-archive -fstype=nfs,vers=4.1,rw,resvport,tcp,hard,intr,rsize=1048576,wsize=1048576,async,noatime,nodiratime,actimeo=120    10.10.10.11:/job-folder-archive
+
+# Alternative: More conservative options if you experience issues
+# production-scratch -fstype=nfs,vers=4.1,rw,resvport,tcp,hard,intr,rsize=262144,wsize=262144,noatime,nodiratime    10.10.10.11:/production-scratch
+# job-folder-archive -fstype=nfs,vers=4.1,rw,resvport,tcp,hard,intr,rsize=262144,wsize=262144,noatime,nodiratime    10.10.10.11:/job-folder-archive
+
+# Notes:
+# 1. Mount points will be: /mnt/nfs/ASUSSTOR, /mnt/nfs/production-scratch, /mnt/nfs/job-folder-archive
+# 2. Adjust timeout in /etc/auto.master if mounts unmount too quickly
+# 3. For production use, consider sync instead of async for data integrity
+# 4. Test performance with different rsize/wsize values for your specific network

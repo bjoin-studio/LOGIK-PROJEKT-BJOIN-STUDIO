@@ -1,1 +1,19 @@
-
+{
+    "Name": "LC_INTL-25_670-SPECIALTY_2026_2_supercomputer",
+    "ProjectDir": "/mnt/AutodeskStorage/flame/projects/LC_INTL-25_670-SPECIALTY_2026_2_supercomputer",
+    "SetupDir": "/mnt/AutodeskStorage/flame/projects/LC_INTL-25_670-SPECIALTY_2026_2_supercomputer/setups",
+    "MediaDir": "/mnt/AutodeskStorage/flame/projects/LC_INTL-25_670-SPECIALTY_2026_2_supercomputer/media",
+    "Resolution": {
+        "FrameWidth": 3840,
+        "FrameHeight": 2160,
+        "FrameDepth": "16-bit fp",
+        "AspectRatio": 1.7777778,
+        "FieldDominance": "PROGRESSIVE"
+    },
+    "StartFrame": 1001,
+    "ConfigTemplate": "3840x2160@23976p.cfg",
+    "FrameRate": "23.976 fps",
+    "IntermediatesProfile": 65797,
+    "FloatIntermediates": 1120376,
+    "ColourPolicyName": "ACES 1.1"
+}

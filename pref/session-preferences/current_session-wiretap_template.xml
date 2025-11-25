@@ -1,1 +1,22 @@
-
+<?xml version='1.0' encoding='utf-8'?>
+<Project>
+  <Name>LC_INTL-25_670-SPECIALTY_2026_2_supercomputer</Name>
+  <Nickname>LC_INTL-25_670-SPECIALTY</Nickname>
+  <ShotgunProjectName>LC_INTL-25_670-SPECIALTY</ShotgunProjectName>
+  <Description>Specialty Pizzas for MEX and LAC - 1 shot each</Description>
+  <CatalogDir>/mnt/AutodeskStorage/flame/projects/LC_INTL-25_670-SPECIALTY_2026_2_supercomputer/catalog</CatalogDir>
+  <ProjectDir>/mnt/AutodeskStorage/flame/projects/LC_INTL-25_670-SPECIALTY_2026_2_supercomputer</ProjectDir>
+  <SetupDir>/mnt/AutodeskStorage/flame/projects/LC_INTL-25_670-SPECIALTY_2026_2_supercomputer/setups</SetupDir>
+  <MediaDir>/mnt/AutodeskStorage/flame/projects/LC_INTL-25_670-SPECIALTY_2026_2_supercomputer/media</MediaDir>
+  <Version>2026.2</Version>
+  <FrameWidth>3840</FrameWidth>
+  <FrameHeight>2160</FrameHeight>
+  <FrameDepth>16-bit fp</FrameDepth>
+  <AspectRatio>1.7777778</AspectRatio>
+  <FieldDominance>PROGRESSIVE</FieldDominance>
+  <ColourPolicyName>ACES 1.1</ColourPolicyName>
+  <OCIOConfigFile>/opt/Autodesk/colour_mgmt/configs/legacy_configs/syncolor_aces1.1_config/config.ocio</OCIOConfigFile>
+  <IntermediatesProfile>65797:1120376</IntermediatesProfile>
+  <FrameRate>23.976 fps</FrameRate>
+  <DefaultStartFrame>1001</DefaultStartFrame>
+</Project>

@@ -1,0 +1,31 @@
+# filename: /etc/auto_nfs
+# modified: 2025-11-19
+# Updated configuration for QNAP with specific share names
+
+# ASUSSTOR 24 TB NAS on network 10.20.33.86
+# Keep existing configuration - working well
+/mnt/ASUSSTOR           -fstype=nfs,rw,resvport,nfsvers=4      10.20.33.86:/volume1/BJOINFILMS_NAS
+
+# QNAP on 100GbE network (10.10.10.11)
+# OLD single mount (commented out - replaced with specific shares below):
+# /mnt/QNAP -fstype=nfs,rw,hard,intr,vers=3,rsize=1048576,wsize=1048576 10.10.10.11:/QNAP
+
+# NEW: QNAP specific shares with optimized settings for 100GbE network
+# Based on working macOS configuration
+# Upgraded to NFS 4.1 for better performance
+/mnt/production-scratch -fstype=nfs,vers=4.1,rw,resvport,tcp,hard,intr,rsize=1048576,wsize=1048576,async,noatime,nodiratime,actimeo=120    10.10.10.11:/production-scratch
+/mnt/job-folder-archive -fstype=nfs,vers=4.1,rw,resvport,tcp,hard,intr,rsize=1048576,wsize=1048576,async,noatime,nodiratime,actimeo=120    10.10.10.11:/job-folder-archive
+
+# Key improvements over old QNAP mount:
+# - vers=4.1 instead of vers=3 (better performance, security)
+# - Added resvport for security
+# - Added tcp for more reliable high-speed connection
+# - Added async for better write performance (can change to sync if needed)
+# - Added noatime,nodiratime to reduce metadata updates
+# - Added actimeo=120 to cache attributes for better performance
+# - Kept rsize=1048576,wsize=1048576 (1MB buffers) for high throughput
+
+# Note: These mount points will be:
+# - /mnt/ASUSSTOR
+# - /mnt/production-scratch
+# - /mnt/job-folder-archive
