@@ -37,13 +37,12 @@ and includes functions to:
 """
 
 from pathlib import Path
-from urllib.parse import urlparse
 import urllib.request
 import zipfile
 import io
 import logging
 import time
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 
 
 # ========================================================================== #
@@ -79,33 +78,6 @@ zip_urls = {
 
 # list of directories to avoid drilling down into when creating the menu and init files
 no_drill_down_list = ["KnobScripter"]
-ALLOWED_HOSTS = ["github.com", "raw.githubusercontent.com"]
-
-
-# ========================================================================== #
-# URL validation function
-# ========================================================================== #
-def is_safe_url(url: str, allowed_hosts: list) -> bool:
-    """
-    Safely validates that a URL's hostname is in the allowed hosts list.
-    
-    Args:
-        url (str): The URL to validate.
-        allowed_hosts (list): List of allowed hostnames.
-    
-    Returns:
-        bool: True if the URL's hostname is in the allowed list, False otherwise.
-    """
-    try:
-        parsed = urlparse(url)
-        hostname = parsed.hostname
-        if hostname is None:
-            return False
-        return hostname in allowed_hosts
-    except Exception as e:
-        logger.error(f"Error parsing URL {url}: {e}")
-        return False
-
 # ========================================================================== #
 # This section contains the dictionaries for the `init.py` and `menu.py` files.
 # ========================================================================== #
@@ -146,11 +118,6 @@ def fetch_url_with_retries(url: str, retries: int = 3, delay: int = 5) -> Option
     Returns:
         Optional[bytes]: The content fetched from the URL as bytes if successful, otherwise None.
     """
-    # Validate URL before attempting to fetch
-    if not is_safe_url(url, ALLOWED_HOSTS):
-        logger.error(f"URL {url} failed safety validation. Hostname not in allowed list.")
-        return None
-    
     for attempt in range(retries):
         try:
             with urllib.request.urlopen(url, timeout=10) as response:
@@ -211,20 +178,8 @@ def download_and_extract_zip(zip_url: str, final_dir: str) -> None:
         Info: When the ZIP file is successfully extracted.
         Error: If the ZIP file cannot be downloaded or if there is an error during extraction.
     """
-    # Validate URL before processing
-    if not is_safe_url(zip_url, ALLOWED_HOSTS):
-        logger.error(f"ZIP URL {zip_url} failed safety validation.")
-        return
-    
-    # Properly construct the URL by parsing it first
-    try:
-        parsed = urlparse(zip_url)
-        # Only append ?raw=true to github.com URLs that don't already have it
-        if parsed.hostname == "github.com" and not zip_url.endswith("?raw=true"):
-            zip_url += "?raw=true"
-    except Exception as e:
-        logger.error(f"Error processing URL {zip_url}: {e}")
-        return
+    if "github.com" in zip_url and not zip_url.endswith("?raw=true"):
+        zip_url += "?raw=true"
     
     zip_content = fetch_url_with_retries(zip_url)
     if zip_content:
@@ -254,11 +209,6 @@ def download_latest_release(repo_url: str) -> Optional[str]:
     Raises:
         Exception: If there is an error fetching the release information or downloading the release.
     """
-    # Validate the repository URL
-    if not is_safe_url(repo_url, ALLOWED_HOSTS):
-        logger.error(f"Repository URL {repo_url} failed safety validation.")
-        return None
-    
     owner, repo = repo_url.rstrip('/').split('/')[-2:]
     release_url = f"https://github.com/{owner}/{repo}/releases/latest"
     
@@ -351,11 +301,11 @@ def process_zip_urls(zip_urls: Dict[str, str]) -> None:
 # ========================================================================== #
 # This section contains the function to create an `init.py` or `menu.py` file.
 # # ========================================================================== #
-# from pathlib import Path
-# from typing import Dict, List
+from pathlib import Path
+from typing import Dict, List
 
 
-def create_nuke_py(file_name: str, items: Dict[str, str], file_types: list, no_drill_down_list: list) -> None:
+def create_nuke_py(file_name: str, items: Dict[str, str], file_types: List[str], no_drill_down_list: List[str]) -> None:
     """
     Creates a Python file with nuke.pluginAddPath() statements for specified directories and file types.
 
@@ -451,9 +401,9 @@ def main() -> None:
     # Log summary information
     logger.info("Summary of packages found and added:")
     for item, file_type in init_py_items.items():
-        logger.info(f"Package '{item}' added to 'init.py'")
+        logger.info(f"Package '{item}' added to 'init.py' ")
     for item, file_type in menu_py_items.items():
-        logger.info(f"Package '{item}' added to 'menu.py'")
+        logger.info(f"Package '{item}' added to 'menu.py' ")
 
 
 # ========================================================================== #

@@ -29,8 +29,6 @@ share/python-wheels/
 MANIFEST
 
 # PyInstaller
-#  Usually these files are created by a PyInstaller script from a 'spec' file
-#  often using '--onefile' option.
 *.spec
 
 # Installer logs
@@ -84,13 +82,7 @@ ipython_config.py
 # pyenv
 .python-version
 
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   from different sources is a concern, you may want to ignore the Pipfile.lock file.
-# Pipfile.lock
-
-# PEP 582; used by PDM, PEP 582 proposal
+# PEP 582
 __pypackages__/
 
 # Celery stuff
@@ -145,19 +137,47 @@ cython_debug/
 .project
 .pydevproject
 .settings/
+.codegpt
 
 # OS-specific files
 .DS_Store
 Thumbs.db
 
+# macOS resource fork files
+._*
+
 # Log files
 *.log
+error
 
 # Project-specific
 cfg/site-cfg/flame-cfg/flame-presets/colour_mgmt
-
-# Temporary session files
 scratch
 
-# macOS resource fork files
-._*
+# LOGIK-PROJEKT specific ignores
+resources/tmp/current_projekt_bookmarks.json
+resources/tmp/current_projekt_creation_log
+resources/tmp/current_projekt_parameters.xml
+resources/tmp/current_projekt_template.json
+resources/tmp/current_projekt_template.json.bak
+run_logikprojekt_linux.sh
+install/current_adsk_python_version.pref
+LOGIK-PROJEKT.app/Contents/Info.plist
+LOGIK-PROJEKT.app/Contents/MacOS/run_logikprojekt_macos
+LOGIK-PROJEKT.app/Contents/Resources/logik_projekt_icon.icns
+
+# Flame ColorToolkit CTF files
+resources/flame/Syncolor/Shared/transforms/flame_colortoolkit/
+resources/flame/Syncolor/Shared/transforms.tar.xz
+
+# Development and customization files
+development/send_webhook.sh
+customization/testing/premiere_directories.py
+customization/branding/rocky-fonts/rocky-fonts-master
+customization/directory_structure/
+
+# Scratch/temp python files
+resources/flame/python/logik_projekt/openclip_tools/scratch_*.py
+
+# Utility script copies
+resources/utilities/scripts/bash/create_new_ssh_keys/scripts/create_ssh_keys-linux copy*.sh
