@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//opt/Autodesk/shared/python/**)",
+      "Bash(ln -s ~/Documents/workspace/GitHub/nbjoin/nbjoin-pythonDev/flame-hooks/zipcode.py /opt/Autodesk/shared/python/zipcode.py)",
+      "Read(//Users/nbjoin/Documents/workspace/GitHub/nbjoin/nbjoin-pythonDev/.claude/**)",
+      "Read(//Users/nbjoin/Documents/workspace/GitHub/nbjoin/nbjoin-pythonDev/**)",
+      "Bash(python3 -m py_compile pinOut.py)",
+      "Bash(python3 -m py_compile /Users/nbjoin/Documents/workspace/GitHub/nbjoin/nbjoin-pythonDev/flame-hooks/pinOut.py)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

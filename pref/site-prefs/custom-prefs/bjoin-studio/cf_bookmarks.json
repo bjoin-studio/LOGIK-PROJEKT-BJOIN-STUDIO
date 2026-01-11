@@ -1,0 +1,312 @@
+{
+    "DlBookmark": {
+        "Version": 1,
+        "Sections": [
+            {
+                "Section": "Project",
+                "Bookmarks": [
+                    {
+                        "Bookmark": "flame setups",
+                        "Path": "<project home>",
+                        "Visibility": "Global"
+                    },
+                    {
+                        "Bookmark": "PROJEKTS",
+                        "Path": "/PROJEKTS/",
+                        "Visibility": "Global"
+                    },
+                    {
+                        "Bookmark": "projekt home",
+                        "Path": "/PROJEKTS/<project nickname>/",
+                        "Visibility": "Global"
+                    },
+                    {
+                        "Folder": "projekt directories",
+                        "Bookmarks": [
+                            {
+                                "Folder": "assets",
+                                "Bookmarks": [
+                                    {
+                                        "Folder": "3d",
+                                        "Bookmarks": [
+                                            {
+                                                "Bookmark": "alembic",
+                                                "Path": "/PROJEKTS/<project nickname>/assets/3d/alembic",
+                                                "Visibility": "Global"
+                                            },
+                                            {
+                                                "Bookmark": "usd",
+                                                "Path": "/PROJEKTS/<project nickname>/assets/3d/usd",
+                                                "Visibility": "Global"
+                                            },
+                                            {
+                                                "Bookmark": "fbx",
+                                                "Path": "/PROJEKTS/<project nickname>/assets/3d/fbx",
+                                                "Visibility": "Global"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "Folder": "audio",
+                                        "Bookmarks": [
+                                            {
+                                                "Bookmark": "mix",
+                                                "Path": "/PROJEKTS/<project nickname>/assets/audio/mix",
+                                                "Visibility": "Global"
+                                            },
+                                            {
+                                                "Bookmark": "music",
+                                                "Path": "/PROJEKTS/<project nickname>/assets/audio/music",
+                                                "Visibility": "Global"
+                                            },
+                                            {
+                                                "Bookmark": "voiceover",
+                                                "Path": "/PROJEKTS/<project nickname>/assets/audio/voiceover",
+                                                "Visibility": "Global"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "Bookmark": "fonts",
+                                        "Path": "/PROJEKTS/<project nickname>/assets/fonts",
+                                        "Visibility": "Global"
+                                    },
+                                    {
+                                        "Folder": "graphics",
+                                        "Bookmarks": [
+                                            {
+                                                "Bookmark": "artwork",
+                                                "Path": "/PROJEKTS/<project nickname>/assets/graphics/artwork",
+                                                "Visibility": "Global"
+                                            },
+                                            {
+                                                "Bookmark": "images",
+                                                "Path": "/PROJEKTS/<project nickname>/assets/graphics/images",
+                                                "Visibility": "Global"
+                                            },
+                                            {
+                                                "Bookmark": "photoshop",
+                                                "Path": "/PROJEKTS/<project nickname>/assets/graphics/photoshop",
+                                                "Visibility": "Global"
+                                            },
+                                            {
+                                                "Bookmark": "titles",
+                                                "Path": "/PROJEKTS/<project nickname>/assets/graphics/titles",
+                                                "Visibility": "Global"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "Bookmark": "video",
+                                        "Path": "/PROJEKTS/<project nickname>/assets/video",
+                                        "Visibility": "Global"
+                                    }
+                                ]
+                            },
+                            {
+                                "Bookmark": "camera_originals",
+                                "Path": "/PROJEKTS/<project nickname>/camera_originals",
+                                "Visibility": "Global"
+                            },
+                            {
+                                "Folder": "editorial",
+                                "Bookmarks": [
+                                    {
+                                        "Bookmark": "aaf",
+                                        "Path": "/PROJEKTS/<project nickname>/editorial/aaf",
+                                        "Visibility": "Global"
+                                    },
+                                    {
+                                        "Bookmark": "edl",
+                                        "Path": "/PROJEKTS/<project nickname>/editorial/edl",
+                                        "Visibility": "Global"
+                                    },
+                                    {
+                                        "Bookmark": "xml",
+                                        "Path": "/PROJEKTS/<project nickname>/editorial/xml",
+                                        "Visibility": "Global"
+                                    },
+                                    {
+                                        "Bookmark": "prep",
+                                        "Path": "/PROJEKTS/<project nickname>/editorial/prep",
+                                        "Visibility": "Global"
+                                    },
+                                    {
+                                        "Folder": "project-files",
+                                        "Bookmarks": [
+                                            {
+                                                "Bookmark": "premiere",
+                                                "Path": "/PROJEKTS/<project nickname>/editorial/project-files/premiere",
+                                                "Visibility": "Global"
+                                            },
+                                            {
+                                                "Bookmark": "resolve",
+                                                "Path": "/PROJEKTS/<project nickname>/editorial/project-files/resolve",
+                                                "Visibility": "Global"
+                                            },
+                                            {
+                                                "Bookmark": "fcp",
+                                                "Path": "/PROJEKTS/<project nickname>/editorial/project-files/fcp",
+                                                "Visibility": "Global"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "Folder": "flame",
+                                "Bookmarks": [
+                                    {
+                                        "Bookmark": "archive",
+                                        "Path": "/PROJEKTS/<project nickname>/flame/archive",
+                                        "Visibility": "Global"
+                                    },
+                                    {
+                                        "Bookmark": "iterations",
+                                        "Path": "/PROJEKTS/<project nickname>/flame/iterations",
+                                        "Visibility": "Global"
+                                    },
+                                    {
+                                        "Bookmark": "setups",
+                                        "Path": "/PROJEKTS/<project nickname>/flame/setups",
+                                        "Visibility": "Global"
+                                    }
+                                ]
+                            },
+                            {
+                                "Folder": "masters",
+                                "Bookmarks": [
+                                    {
+                                        "Bookmark": "deliverables",
+                                        "Path": "/PROJEKTS/<project nickname>/masters/deliverables",
+                                        "Visibility": "Global"
+                                    },
+                                    {
+                                        "Bookmark": "versioned",
+                                        "Path": "/PROJEKTS/<project nickname>/masters/versioned",
+                                        "Visibility": "Global"
+                                    }
+                                ]
+                            },
+                            {
+                                "Folder": "processes",
+                                "Bookmarks": [
+                                    {
+                                        "Folder": "tracking",
+                                        "Bookmarks": [
+                                            {
+                                                "Bookmark": "2d",
+                                                "Path": "/PROJEKTS/<project nickname>/processes/tracking/2d",
+                                                "Visibility": "Global"
+                                            },
+                                            {
+                                                "Bookmark": "3d",
+                                                "Path": "/PROJEKTS/<project nickname>/processes/tracking/3d",
+                                                "Visibility": "Global"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "Bookmark": "rotoscope",
+                                        "Path": "/PROJEKTS/<project nickname>/processes/rotoscope",
+                                        "Visibility": "Global"
+                                    },
+                                    {
+                                        "Bookmark": "ml",
+                                        "Path": "/PROJEKTS/<project nickname>/processes/ml",
+                                        "Visibility": "Global"
+                                    }
+                                ]
+                            },
+                            {
+                                "Folder": "reference",
+                                "Bookmarks": [
+                                    {
+                                        "Bookmark": "images",
+                                        "Path": "/PROJEKTS/<project nickname>/reference/images",
+                                        "Visibility": "Global"
+                                    },
+                                    {
+                                        "Bookmark": "videos",
+                                        "Path": "/PROJEKTS/<project nickname>/reference/videos",
+                                        "Visibility": "Global"
+                                    },
+                                    {
+                                        "Bookmark": "style_guide",
+                                        "Path": "/PROJEKTS/<project nickname>/reference/style_guide",
+                                        "Visibility": "Global"
+                                    }
+                                ]
+                            },
+                            {
+                                "Bookmark": "shots",
+                                "Path": "/PROJEKTS/<project nickname>/shots",
+                                "Visibility": "Global"
+                            },
+                            {
+                                "Folder": "software",
+                                "Bookmarks": [
+                                    {
+                                        "Bookmark": "ocio",
+                                        "Path": "/PROJEKTS/<project nickname>/software/ocio",
+                                        "Visibility": "Global"
+                                    },
+                                    {
+                                        "Folder": "nuke",
+                                        "Bookmarks": [
+                                            {
+                                                "Bookmark": "gizmos",
+                                                "Path": "/PROJEKTS/<project nickname>/software/nuke/gizmos",
+                                                "Visibility": "Global"
+                                            },
+                                            {
+                                                "Bookmark": "pyScripts",
+                                                "Path": "/PROJEKTS/<project nickname>/software/nuke/pyScripts",
+                                                "Visibility": "Global"
+                                            },
+                                            {
+                                                "Bookmark": "toolsets",
+                                                "Path": "/PROJEKTS/<project nickname>/software/nuke/toolsets",
+                                                "Visibility": "Global"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "Folder": "utilities",
+                                "Bookmarks": [
+                                    {
+                                        "Bookmark": "luts",
+                                        "Path": "/PROJEKTS/<project nickname>/utilities/luts",
+                                        "Visibility": "Global"
+                                    },
+                                    {
+                                        "Bookmark": "ctf",
+                                        "Path": "/PROJEKTS/<project nickname>/utilities/ctf",
+                                        "Visibility": "Global"
+                                    }
+                                ]
+                            },
+                            {
+                                "Folder": "work_in_progress",
+                                "Bookmarks": [
+                                    {
+                                        "Bookmark": "postings",
+                                        "Path": "/PROJEKTS/<project nickname>/work_in_progress/postings",
+                                        "Visibility": "Global"
+                                    },
+                                    {
+                                        "Bookmark": "reviews",
+                                        "Path": "/PROJEKTS/<project nickname>/work_in_progress/reviews",
+                                        "Visibility": "Global"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

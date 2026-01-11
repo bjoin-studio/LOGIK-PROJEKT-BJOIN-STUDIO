@@ -90,9 +90,12 @@ if [[ "$nuke_major_minor" == "14.0" || "$nuke_major_minor" == "14.1" ]]; then
     folder="CY2022-2.1.x"
 elif [[ "$nuke_major_minor" == "15.0" || "$nuke_major_minor" == "15.1" ]]; then
     folder="CY2023-2.2.x"
+elif [[ "$nuke_major_minor" == "16.0" || "$nuke_major_minor" == "16.1" ]]; then
+    # Nuke 16 uses VFX Reference Platform CY2024 (OCIO 2.3.x)
+    folder="CY2024-2.3.x"
 else
-    echo "Unsupported Nuke version: $nuke_major_minor"
-    exit 1
+    echo "Warning: Unrecognized Nuke version: $nuke_major_minor - using CY2024 OCIO"
+    folder="CY2024-2.3.x"
 fi
 
 # ========================================================================== #

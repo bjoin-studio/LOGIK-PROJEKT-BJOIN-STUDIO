@@ -41,11 +41,22 @@
 # ========================================================================== #
 # This section defines the import statements and directory paths.
 # ========================================================================== #
+# NOTE: This file is a Nuke menu.py TEMPLATE that gets copied to projects.
+# It should NOT be executed by Flame. Guard imports to prevent errors.
 
 import os.path
-import nuke
-import nukescripts
 import re
+
+# Only import Nuke modules when actually running inside Nuke
+try:
+    import nuke
+    import nukescripts
+    RUNNING_IN_NUKE = True
+except ImportError:
+    # Not running in Nuke (e.g., being scanned by Flame or another app)
+    RUNNING_IN_NUKE = False
+    nuke = None
+    nukescripts = None
 
 try:
     from PySide6 import QtWidgets, QtCore, QtGui
@@ -54,8 +65,10 @@ except ImportError:
 
 # Function to update the versioning in the file paths of all write nodes
 def update_write_node_version():
-  
     """Increments the versioning in the file paths of all write nodes"""
+    if not RUNNING_IN_NUKE:
+        return  # Skip if not in Nuke
+    
     root_name = nuke.toNode("root").name()
 
     # Get the version number from the script name
@@ -96,8 +109,9 @@ def update_write_node_version():
                     file_knob.setValue(new_path)
 
 
-# Add a callback to the script_save event
-nuke.addOnScriptSave(update_write_node_version)
+# Add a callback to the script_save event (only when running in Nuke)
+if RUNNING_IN_NUKE:
+    nuke.addOnScriptSave(update_write_node_version)
 
 # ========================================================================== #
 # C2 A9 32 30 32 34 2D 4D 41 4E 2D 4D 41 44 45 2D 4D 45 4B 41 4E 59 5A 4D 53 #

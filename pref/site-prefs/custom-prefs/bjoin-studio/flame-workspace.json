@@ -1,0 +1,104 @@
+[
+  {
+    "type": "desktop",
+    "name_template": "{date}-{user}"
+  },
+  {
+    "type": "desktop_contents",
+    "items": [
+      {
+        "type": "reel_group",
+        "name": "Working",
+        "reels": [
+          {
+            "type": "reel",
+            "name": "Incoming"
+          },
+          {
+            "type": "reel",
+            "name": "WIP",
+            "reel_type": "Sequence"
+          },
+          {
+            "type": "reel",
+            "name": "Renders"
+          }
+        ]
+      },
+      {
+        "type": "batch_group",
+        "name": "Main Batch"
+      },
+      {
+        "type": "reel",
+        "name": "Schematic",
+        "reel_type": "Schematic"
+      }
+    ]
+  },
+  {
+    "type": "library",
+    "name": "Project_Library",
+    "colour": [0.2, 0.6, 0.8],
+    "tags": ["Active", "Production"],
+    "expanded": true,
+    "children": [
+      {
+        "type": "folder",
+        "name": "Editorial",
+        "children": [
+          {
+            "type": "reel",
+            "name": "Cuts"
+          },
+          {
+            "type": "reel",
+            "name": "Ref"
+          }
+        ]
+      },
+      {
+        "type": "folder",
+        "name": "Plates",
+        "children": [
+          {
+            "type": "reel",
+            "name": "Raw"
+          },
+          {
+            "type": "reel",
+            "name": "Graded"
+          }
+        ]
+      },
+      {
+        "type": "folder",
+        "name": "Graphics",
+        "children": [
+          {
+            "type": "reel",
+            "name": "Elements"
+          },
+          {
+            "type": "reel",
+            "name": "Titles"
+          }
+        ]
+      },
+      {
+        "type": "folder",
+        "name": "Deliverables",
+        "children": [
+          {
+            "type": "reel",
+            "name": "Masters"
+          },
+          {
+            "type": "reel",
+            "name": "Postings"
+          }
+        ]
+      }
+    ]
+  }
+]
