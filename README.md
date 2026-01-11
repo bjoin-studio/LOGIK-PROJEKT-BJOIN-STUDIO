@@ -1,5 +1,28 @@
 # [LOGIK-PROJEKT](https://github.com/flamelogik/LOGIK-PROJEKT)
 
+## BJoin Studio Fork
+
+This is the BJoin Studio customized fork of LOGIK-PROJEKT with:
+- **Custom OCIO Config**: ACES 1.3 with classic ACES 1.0 SDR output (Rec.709)
+- **Streamlined Folder Template**: 77-directory project structure
+- **Nuke 16.x Support**: Updated launch scripts and Flame integration
+- **Cross-Platform Setup**: Works on macOS and Rocky Linux 9.5
+
+### Quick Setup
+
+```bash
+# Clone the repository
+git clone git@github.com:bjoin-studio/LOGIK-PROJEKT-BJOIN-STUDIO.git
+cd LOGIK-PROJEKT-BJOIN-STUDIO
+
+# Run the setup script (installs OCIO config and sets environment)
+./install/setup-bjoin-studio.sh --system
+```
+
+For detailed setup instructions, see [docs/SETUP-GUIDE.md](docs/SETUP-GUIDE.md).
+
+---
+
 ### Table of Contents
 - Introduction
 - Key Features
