@@ -25,7 +25,8 @@ from PySide6.QtCore import (
     QThread,
     QObject,
     Signal,
-    Slot
+    Slot,
+    Qt
 )
 
 from PySide6.QtWidgets import (
@@ -33,7 +34,8 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QHBoxLayout,
     QFileDialog,
-    QMessageBox
+    QMessageBox,
+    QScrollArea
 )
 
 from src.ui import (
@@ -153,19 +155,35 @@ class AppWindow(QWidget):
 
         logging.debug("AppWindow initialized.")
 
-        self.main_layout = QHBoxLayout(self)
+        # Create a scroll area to handle small screens
+        self.scroll_area = QScrollArea(self)
+        self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.scroll_area.setFrameShape(QScrollArea.NoFrame)
+        
+        # Create a container widget for the scroll area
+        self.scroll_content = QWidget()
+        self.main_layout = QHBoxLayout(self.scroll_content)
         self.main_layout.setContentsMargins(
             *ui_config.MAIN_LAYOUT_MARGINS
         )
+        
+        self.scroll_area.setWidget(self.scroll_content)
+        
+        # Create the outer layout that holds the scroll area
+        outer_layout = QVBoxLayout(self)
+        outer_layout.setContentsMargins(0, 0, 0, 0)
+        outer_layout.addWidget(self.scroll_area)
 
-        self.left_container = QWidget(self)
+        self.left_container = QWidget(self.scroll_content)
         self.left_container.setFixedWidth(
             ui_config.LEFT_CONTAINER_WIDTH
         )
         self.left_layout = QVBoxLayout(self.left_container)
         self.main_layout.addWidget(self.left_container)
 
-        self.right_container = QWidget(self)
+        self.right_container = QWidget(self.scroll_content)
         self.right_container.setFixedWidth(
             ui_config.RIGHT_CONTAINER_WIDTH
         )

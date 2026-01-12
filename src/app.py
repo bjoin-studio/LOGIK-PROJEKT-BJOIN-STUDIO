@@ -104,7 +104,7 @@ def main():
         "LOGIK-PROJEKT 2026.1"
     )
 
-    # Center the window on the screen
+    # Scale window to fit screen if necessary
     screen = (
         app.primaryScreen()
     )
@@ -113,19 +113,32 @@ def main():
         screen_geometry = (
             screen.geometry()
         )
+        
+        # Get available screen size (accounting for menu bar, dock, etc.)
+        available_geometry = screen.availableGeometry()
+        
+        # Calculate maximum window size (90% of available screen by default)
+        max_ratio = getattr(ui_config, 'WINDOW_MAX_SCREEN_RATIO', 0.90)
+        max_width = int(available_geometry.width() * max_ratio)
+        max_height = int(available_geometry.height() * max_ratio)
+        
+        # Use configured size or scale down if too large
+        window_width = min(ui_config.WINDOW_WIDTH, max_width)
+        window_height = min(ui_config.WINDOW_HEIGHT, max_height)
 
+        # Center the window on the screen
         x = (
-            screen_geometry.width() - ui_config.WINDOW_WIDTH
-        ) / 2
+            available_geometry.width() - window_width
+        ) / 2 + available_geometry.x()
         y = (
-            screen_geometry.height() - ui_config.WINDOW_HEIGHT
-        ) / 2
+            available_geometry.height() - window_height
+        ) / 2 + available_geometry.y()
 
         main_window.setGeometry(
             int(x),
             int(y),
-            ui_config.WINDOW_WIDTH,
-            ui_config.WINDOW_HEIGHT
+            window_width,
+            window_height
         )
     else:
         main_window.setGeometry(
