@@ -4,6 +4,8 @@
 # Purpose:      Retrieves the default Flame home directory from sysconfig.
 # Description:  This script reads the sysconfig.cfg file to obtain the
 #               predefined default path for Flame project home directories.
+#               Now also checks local_workstation.json for machine-specific
+#               overrides.
 
 # Author:       phil_man@mac.com
 # Copyright:    Copyright (c) 2025
@@ -11,26 +13,38 @@
 # License:      GNU General Public License v3.0 (GPL-3.0).
 #               https://www.gnu.org/licenses/gpl-3.0.en.html
 
-# Version:      2026.1.0
+# Version:      2026.2.1
 # Status:       Production
 # Type:         Utility
 # Created:      2025-07-01
-# Modified:     2025-08-03
+# Modified:     2026-01-11
 
 # Changelog:    Changelog at bottom of script.
 # -------------------------------------------------------------------------- #
 
 import json
 from src.core.functions.get.get_application_paths import GetApplicationPaths
+from src.core.utils.local_workstation_config import get_local_flame_home_dir
 
 
 def get_sysconfig_flame_home_dir() -> str:
     """
     Load default Flame home directory from configuration.
+    
+    Priority order:
+    1. Local workstation config (local_workstation.json)
+    2. Sysconfig.cfg
+    3. Hardcoded default
   
     Returns:
         Default home directory path string
     """
+    # First, check for local workstation override
+    local_home_dir = get_local_flame_home_dir()
+    if local_home_dir:
+        return local_home_dir
+    
+    # Fall back to sysconfig.cfg
     sysconfig_cfg_path = GetApplicationPaths.SYSCONFIG_CFG
     default_path = "/var/opt/Autodesk/flame/projects/<project name>"
   

@@ -34,6 +34,13 @@ def get_ocio_config_name(file_path):
     return None
 
 
+# Additional OCIO config directories to scan (beyond Autodesk default)
+ADDITIONAL_OCIO_DIRS = [
+    "/opt/bjoin-studio/ocio",           # BJoin Studio system-wide
+    os.path.expanduser("~/.config/bjoin-studio/ocio"),  # BJoin Studio user
+]
+
+
 def GetOCIOConfigs(
         base_dir=(
             "/opt/"
@@ -44,6 +51,7 @@ def GetOCIOConfigs(
 ):
     ocio_configs = []
 
+    # Scan Autodesk default location
     for root, dirs, files in os.walk(base_dir):
         if "flame_internal_use" in root:
             continue
@@ -72,12 +80,38 @@ def GetOCIOConfigs(
                 )
             )
 
+    # Scan additional custom OCIO directories
+    for custom_dir in ADDITIONAL_OCIO_DIRS:
+        config_path = os.path.join(custom_dir, "config.ocio")
+        if os.path.isfile(config_path):
+            ocio_name = get_ocio_config_name(config_path)
+            # Use the full path as the "relative" path for custom configs
+            # This distinguishes them from Autodesk configs
+            ocio_configs.append(
+                (
+                    config_path,  # Full path for custom configs
+                    ocio_name or os.path.basename(custom_dir)
+                )
+            )
+
     return ocio_configs
 
 
 def get_ocio_details_from_relative_path(
     relative_path: str,
 ) -> tuple[str, str]:
+    # Check if it's already a full path (custom config)
+    if relative_path.startswith("/"):
+        if os.path.isfile(relative_path):
+            ocio_name = get_ocio_config_name(relative_path)
+            return ocio_name, relative_path
+        # Maybe it's a directory, look for config.ocio inside
+        config_path = os.path.join(relative_path, "config.ocio")
+        if os.path.isfile(config_path):
+            ocio_name = get_ocio_config_name(config_path)
+            return ocio_name, config_path
+    
+    # Default Autodesk location
     base_dir = (
         "/opt/"
         "Autodesk/"

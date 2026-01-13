@@ -101,7 +101,7 @@ def main():
         QMainWindow()
     )
     main_window.setWindowTitle(
-        "LOGIK-PROJEKT 2026.1"
+        "LOGIK-PROJEKT 2026.2.1"
     )
 
     # Scale window to fit screen if necessary
@@ -154,11 +154,20 @@ def main():
     main_window.setCentralWidget(app_widget)
 
     main_window.show()
-    sys.exit(app.exec())
+    
+    # Run the application event loop
+    exit_code = app.exec()
+    
+    # Clean exit - return code instead of sys.exit() to avoid 
+    # "unexpectedly quit" dialog on macOS when closing normally
+    return exit_code
 
 
 if __name__ == "__main__":
-    main()
+    exit_code = main()
+    # Only use sys.exit if there was an actual error
+    if exit_code != 0:
+        sys.exit(exit_code)
 
 
 # -------------------------------------------------------------------------- #

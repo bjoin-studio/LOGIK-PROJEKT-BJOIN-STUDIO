@@ -64,6 +64,7 @@ class ProjektParameters:
     flame_projekt_ocio: str = ""
     flame_projekt_ocio_path: str = ""
     flame_projekt_ocio_name: str = ""
+    flame_projekt_ocio_policy: str = ""
     flame_projekt_cachef: str = ""
     flame_projekt_cachef_id: str = ""
     flame_projekt_cachei: str = ""

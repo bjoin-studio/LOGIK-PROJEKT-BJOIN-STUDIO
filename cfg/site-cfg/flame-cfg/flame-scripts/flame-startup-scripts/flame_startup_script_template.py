@@ -21,9 +21,16 @@ def modify_flame_desktop(name_template="{date}-{user}"):
         print(f"An error occurred while renaming the desktop: {e}")
 
 
-def create_batch_group(parent_container, group_name):
+def create_batch_group(parent_container, group_name, schematic_reels=None, shelf_reels=None):
     """
     Creates a new Batch Group with the given name in the specified parent container.
+    Optionally creates schematic and shelf reels within the batch group.
+    
+    Args:
+        parent_container: The desktop or folder to create the batch group in.
+        group_name (str): The name for the batch group.
+        schematic_reels (list, optional): List of dicts with 'name' and optionally 'colour' for schematic reels.
+        shelf_reels (list, optional): List of dicts with 'name' and optionally 'colour' for shelf reels.
     """
     try:
         if not parent_container:
@@ -31,10 +38,43 @@ def create_batch_group(parent_container, group_name):
             return None
 
         print(f"Attempting to create batch group '{group_name}'...")
-        new_batch_group = parent_container.create_batch_group(group_name)
+        
+        # Extract reel names if schematic_reels provided
+        schematic_reel_names = None
+        shelf_reel_names = None
+        
+        if schematic_reels:
+            schematic_reel_names = [r.get('name', f'Schematic Reel {i+1}') for i, r in enumerate(schematic_reels)]
+        if shelf_reels:
+            shelf_reel_names = [r.get('name', f'Shelf Reel {i+1}') for i, r in enumerate(shelf_reels)]
+        
+        # Create batch group - use flame.batch API if we have reels to create
+        if schematic_reel_names or shelf_reel_names:
+            # Use flame.batch.create_batch_group which supports reels parameter
+            kwargs = {'name': group_name, 'start_frame': 1, 'duration': 100}
+            if schematic_reel_names:
+                kwargs['reels'] = schematic_reel_names
+            if shelf_reel_names:
+                kwargs['shelf_reels'] = shelf_reel_names
+            
+            new_batch_group = flame.batch.create_batch_group(**kwargs)
+            
+            # Set reel colors if specified
+            if schematic_reels and new_batch_group:
+                try:
+                    for i, reel_spec in enumerate(schematic_reels):
+                        if 'colour' in reel_spec and i < len(flame.batch.reels):
+                            flame.batch.reels[i].colour = tuple(reel_spec['colour'])
+                except Exception as color_err:
+                    print(f"Warning: Could not set schematic reel colors: {color_err}")
+            
+            print(f"Batch group '{group_name}' created with {len(schematic_reel_names or [])} schematic reels and {len(shelf_reel_names or [])} shelf reels.")
+        else:
+            # No custom reels, use simple method
+            new_batch_group = parent_container.create_batch_group(group_name)
 
         if new_batch_group:
-            print(f"Batch group '{new_batch_group.name.get_value()}' created successfully.")
+            print(f"Batch group '{group_name}' created successfully.")
             return new_batch_group
         else:
             print(f"Failed to create batch group '{group_name}'.")
@@ -492,7 +532,19 @@ def modify_desktop_contents(desktop_contents):
                             else:
                                 print(f"Skipping invalid reel_item (not a dictionary): {reel_item}")
                 elif item_type == "batch_group":
-                    create_batch_group(the_current_desktop, item_name)
+                    # Process schematic reels from the "reels" array in the batch_group config
+                    schematic_reels = None
+                    if "reels" in item:
+                        schematic_reels = []
+                        for reel_item in item["reels"]:
+                            if isinstance(reel_item, dict):
+                                reel_spec = {
+                                    "name": reel_item["name"].replace('{date}', today_date).replace('{user}', user_nickname)
+                                }
+                                if "colour" in reel_item:
+                                    reel_spec["colour"] = reel_item["colour"]
+                                schematic_reels.append(reel_spec)
+                    create_batch_group(the_current_desktop, item_name, schematic_reels=schematic_reels)
                 elif item_type == "reel":
                     create_reel(the_current_desktop, item_name, item.get("reel_type"), item.get("colour"))
 

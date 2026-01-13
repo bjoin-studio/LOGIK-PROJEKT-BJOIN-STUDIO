@@ -8,12 +8,12 @@
     "Default Scan Mode: ": "PROGRESSIVE",
     "Default Start Frame: ": "1001",
     "Default Init Config: ": "3840x2160@23976p.cfg",
-    "Default OCIO Config: ": "bjoin-studio",
+    "Default OCIO Config: ": "/opt/bjoin-studio/ocio/config.ocio",
     "Default OCIO Path: ": "/opt/bjoin-studio/ocio/config.ocio",
     "Default OCIO Name: ": "BJoin Studio ACES 1.3",
-    "Default Cache Integer: ": "Uncompressed (DPX)",
-    "Default Cache Integer ID: ": "2",
-    "Default Cache Float: ": "OpenEXR (DWAB)",
-    "Default Cache Float ID: ": "1185912",
+    "Default Cache Integer: ": "Apple ProRes 4444 XQ",
+    "Default Cache Integer ID: ": "65797",
+    "Default Cache Float: ": "OpenEXR (DWAA)",
+    "Default Cache Float ID: ": "1120376",
     "Default Logik Projekt Config": "bjoin-studio"
 }

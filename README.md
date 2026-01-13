@@ -1,5 +1,7 @@
 # [LOGIK-PROJEKT](https://github.com/flamelogik/LOGIK-PROJEKT)
 
+> ⚠️ **AI ASSISTANTS**: Read [CLAUDE.md](CLAUDE.md) and [.github/copilot-instructions.md](.github/copilot-instructions.md) FIRST. Contains critical restrictions.
+
 ## BJoin Studio Fork
 
 This is the BJoin Studio customized fork of LOGIK-PROJEKT with:

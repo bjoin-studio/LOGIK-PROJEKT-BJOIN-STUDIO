@@ -156,6 +156,18 @@ def get_projekt_summary_data(
     flame_projekt_ocio_name, flame_projekt_ocio_path = (
         ocio_utils.get_ocio_details_from_relative_path(flame_projekt_ocio)
     )
+    
+    # Determine OCIO policy for Flame project creation
+    # For external OCIO configs (paths starting with /), use empty policy name
+    # and let OCIOConfigFile specify the config. For Autodesk built-in configs,
+    # derive the policy name from the relative path.
+    if flame_projekt_ocio_path.startswith("/opt/Autodesk/colour_mgmt/"):
+        # Built-in Autodesk OCIO config - extract policy name
+        # e.g., "flame_configs/2026.0/aces2.0_config" -> "ACES 2.0"
+        flame_projekt_ocio_policy = flame_projekt_ocio_name or ""
+    else:
+        # External OCIO config - leave policy empty, use OCIOConfigFile path
+        flame_projekt_ocio_policy = ""
   
     flame_projekt_cachef = template_parameters.template_cache_float
     flame_projekt_cachef_id = template_parameters.template_cache_float_id
@@ -200,6 +212,7 @@ def get_projekt_summary_data(
         "flame_projekt_ocio": flame_projekt_ocio,
         "flame_projekt_ocio_path": flame_projekt_ocio_path,
         "flame_projekt_ocio_name": flame_projekt_ocio_name,
+        "flame_projekt_ocio_policy": flame_projekt_ocio_policy,
         "flame_projekt_cachef": flame_projekt_cachef,
         "flame_projekt_cachef_id": flame_projekt_cachef_id,
         "flame_projekt_cachei": flame_projekt_cachei,

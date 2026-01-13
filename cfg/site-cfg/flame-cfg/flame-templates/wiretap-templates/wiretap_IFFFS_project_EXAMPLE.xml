@@ -13,7 +13,7 @@
   <FrameDepth>flame_projekt_depth</FrameDepth>
   <AspectRatio>flame_projekt_ratio</AspectRatio>
   <FieldDominance>flame_projekt_mode</FieldDominance>
-  <ColourPolicyName>flame_projekt_ocio_name</ColourPolicyName>
+  <ColourPolicyName>flame_projekt_ocio_policy</ColourPolicyName>
   <OCIOConfigFile>flame_projekt_ocio_path</OCIOConfigFile>
   <IntermediatesProfile>flame_projekt_cachei_id:flame_projekt_cachef_id</IntermediatesProfile>
   <FrameRate>flame_projekt_rate</FrameRate>
