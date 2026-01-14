@@ -77,6 +77,18 @@
 
 ---
 
+## Agent Identities
+
+For specialized assistance, see [.github/agents/](agents/README.md):
+- **[Flame Specialist](agents/flame-specialist.md)**: Python API, hooks, Wiretap, batch automation
+- **[LOGIK-PROJEKT Architect](agents/logik-projekt-architect.md)**: App architecture, templates, PySide6 UI
+- **[OCIO Colorist](agents/ocio-colorist.md)**: Color management, ACES workflows, camera integration
+- **[Integration Coordinator](agents/integration-coordinator.md)**: Cross-repo coordination, MCP tools, developer experience
+
+These agents embody deep expertise and lessons learned. Call on them for complex tasks.
+
+---
+
 ## How to Update This File
 
 Add new lessons learned in the format:
