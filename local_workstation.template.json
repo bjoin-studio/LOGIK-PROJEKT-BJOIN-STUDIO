@@ -1,0 +1,13 @@
+{
+    "_description": "Copy this file to 'local_workstation.json' and customize for your machine. The local_workstation.json file is gitignored so your settings won't be tracked.",
+    
+    "flame_home_dir": "/path/to/your/flame/storage",
+    "flame_setups_dir": null,
+    "flame_media_dir": null,
+    
+    "_notes": {
+        "flame_home_dir": "The root directory where Flame stores project data. Example: /Volumes/MyDrive/AutodeskStorage/flame",
+        "flame_setups_dir": "Optional. Usually relative to project home. Set to null to use default.",
+        "flame_media_dir": "Optional. Usually relative to project home. Set to null to use default."
+    }
+}

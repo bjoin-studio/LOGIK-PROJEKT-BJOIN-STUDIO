@@ -1,0 +1,386 @@
+# =============================================================================
+# BJOIN-STUDIO Custom OCIO Config
+# Based on ACES 1.3 Studio Config v2.1.0
+# =============================================================================
+#
+# Workflow: R3D (REDLog3G10/REDWideGamut) → ACEScg → Rec.709 (SDR)
+# 
+# This config is designed for:
+# - Flame 2026
+# - Nuke 16
+# - Blender (OCIO support)
+# - After Effects (via OCIO plugin)
+# - DaVinci Resolve
+# - Photoshop (limited OCIO support via plugins)
+#
+# Created: 2026-01-10
+# =============================================================================
+
+ocio_profile_version: 2.1
+
+environment:
+  {}
+
+search_path: ""
+strictparsing: true
+luma: [0.2126, 0.7152, 0.0722]
+
+name: bjoin-studio-aces1.3
+description: |
+  BJOIN-STUDIO Custom OCIO Config
+  Based on ACES 1.3 with stripped unnecessary colorspaces
+  
+  Working Space: ACEScg
+  Grading Space: ACEScct
+  Output: Rec.709 SDR (with HDR options for future)
+  
+  Camera Support:
+  - RED (REDLog3G10 / REDWideGamut)
+  - ARRI (LogC3, LogC4)
+  - Sony (S-Log3 / S-Gamut3)
+  - Blackmagic (Gen5)
+  
+  Version: 1.0.0
+  Modified: 2026-01-10
+
+# =============================================================================
+# ROLES - Standard ACES roles
+# =============================================================================
+roles:
+  aces_interchange: ACES2065-1
+  cie_xyz_d65_interchange: CIE XYZ-D65
+  color_picking: sRGB
+  color_timing: ACEScct
+  compositing_log: ACEScct
+  data: Raw
+  matte_paint: ACEScct
+  scene_linear: ACEScg
+  texture_paint: sRGB
+  default: ACEScg
+
+# =============================================================================
+# FILE RULES - Auto-detect colorspace from filename
+# =============================================================================
+file_rules:
+  - !<Rule> {name: EXR, colorspace: ACEScg, pattern: "*", extension: "exr"}
+  - !<Rule> {name: DPX, colorspace: ACEScg, pattern: "*", extension: "dpx"}
+  - !<Rule> {name: R3D, colorspace: "RED Log3G10 REDWideGamutRGB", pattern: "*.R3D", extension: "r3d"}
+  - !<Rule> {name: MXF-ARRI, colorspace: "ARRI LogC3 AWG", pattern: "*arri*", extension: "mxf"}
+  - !<Rule> {name: MXF-Sony, colorspace: "Sony S-Log3 S-Gamut3", pattern: "*sony*", extension: "mxf"}
+  - !<Rule> {name: Default, colorspace: ACEScg}
+
+# =============================================================================
+# DISPLAYS & VIEWS
+# =============================================================================
+# Simplified to what you actually need:
+# - sRGB for computer monitors
+# - Rec.709 for broadcast/TV delivery
+# - Rec.2100-PQ for future HDR work
+
+displays:
+  sRGB - Display:
+    - !<View> {name: ACES 1.0 - SDR Video, view_transform: ACES 1.0 - SDR Video, display_colorspace: <USE_DISPLAY_NAME>}
+    - !<View> {name: Un-tone-mapped, view_transform: Un-tone-mapped, display_colorspace: <USE_DISPLAY_NAME>}
+    - !<View> {name: Raw, colorspace: Raw}
+  
+  Rec.709 - Display:
+    - !<View> {name: ACES 1.0 - SDR Video, view_transform: ACES 1.0 - SDR Video, display_colorspace: <USE_DISPLAY_NAME>}
+    - !<View> {name: Un-tone-mapped, view_transform: Un-tone-mapped, display_colorspace: <USE_DISPLAY_NAME>}
+    - !<View> {name: Raw, colorspace: Raw}
+  
+  Rec.2100-PQ - Display:
+    - !<View> {name: ACES 1.1 - HDR Video (1000 nits), view_transform: ACES 1.1 - HDR Video (1000 nits), display_colorspace: <USE_DISPLAY_NAME>}
+    - !<View> {name: Un-tone-mapped, view_transform: Un-tone-mapped, display_colorspace: <USE_DISPLAY_NAME>}
+    - !<View> {name: Raw, colorspace: Raw}
+
+active_displays: [sRGB - Display, Rec.709 - Display, Rec.2100-PQ - Display]
+active_views: [ACES 1.0 - SDR Video, ACES 1.1 - HDR Video (1000 nits), Un-tone-mapped, Raw]
+
+# =============================================================================
+# LOOKS (LMTs)
+# =============================================================================
+looks:
+  - !<Look>
+    name: ACES 1.3 Reference Gamut Compression
+    process_space: ACES2065-1
+    description: |
+      Reference Gamut Compression for bringing out-of-gamut camera values
+      into AP1. Useful for highly saturated sources (neon lights, etc.)
+    transform: !<BuiltinTransform> {style: ACES-LMT - ACES 1.3 Reference Gamut Compression}
+
+default_view_transform: ACES 1.0 - SDR Video
+
+# =============================================================================
+# VIEW TRANSFORMS
+# =============================================================================
+view_transforms:
+  - !<ViewTransform>
+    name: Un-tone-mapped
+    from_scene_reference: !<BuiltinTransform> {style: UTILITY - ACES-AP0_to_CIE-XYZ-D65_BFD}
+  
+  - !<ViewTransform>
+    name: ACES 1.0 - SDR Video
+    description: |
+      ACES 1.0 Output Transform for SDR video (Rec.709/sRGB)
+      This is the classic ACES look you prefer over ACES 2.0
+    from_scene_reference: !<BuiltinTransform> {style: ACES-OUTPUT - ACES2065-1_to_CIE-XYZ-D65 - SDR-VIDEO_1.0}
+  
+  - !<ViewTransform>
+    name: ACES 1.1 - HDR Video (1000 nits)
+    description: |
+      ACES 1.1 Output Transform for HDR video (1000 nits, Rec.2020)
+      For future HDR delivery
+    from_scene_reference: !<BuiltinTransform> {style: ACES-OUTPUT - ACES2065-1_to_CIE-XYZ-D65 - HDR-VIDEO-1000nit-15nit-REC2020lim_1.1}
+
+# =============================================================================
+# DISPLAY COLORSPACES
+# =============================================================================
+display_colorspaces:
+  - !<ColorSpace>
+    name: sRGB - Display
+    family: Display
+    encoding: sdr-video
+    isdata: false
+    from_display_reference: !<BuiltinTransform> {style: DISPLAY - CIE-XYZ-D65_to_sRGB}
+  
+  - !<ColorSpace>
+    name: Rec.709 - Display
+    family: Display
+    encoding: sdr-video
+    isdata: false
+    from_display_reference: !<BuiltinTransform> {style: DISPLAY - CIE-XYZ-D65_to_REC.1886-REC.709}
+  
+  - !<ColorSpace>
+    name: Rec.2100-PQ - Display
+    family: Display
+    encoding: hdr-video
+    isdata: false
+    from_display_reference: !<BuiltinTransform> {style: DISPLAY - CIE-XYZ-D65_to_REC.2100-PQ}
+
+# =============================================================================
+# COLORSPACES
+# =============================================================================
+colorspaces:
+
+  # ---------------------------------------------------------------------------
+  # ACES Core Colorspaces
+  # ---------------------------------------------------------------------------
+  - !<ColorSpace>
+    name: ACES2065-1
+    family: ACES
+    encoding: scene-linear
+    description: |
+      ACES 2065-1 (AP0 primaries, linear)
+      The ACES interchange colorspace
+    isdata: false
+    allocation: lg2
+    allocationvars: [-8, 5, 0.00390625]
+  
+  - !<ColorSpace>
+    name: ACEScg
+    family: ACES
+    encoding: scene-linear
+    description: |
+      ACEScg (AP1 primaries, linear)
+      YOUR WORKING COLORSPACE - use for compositing
+    isdata: false
+    allocation: lg2
+    allocationvars: [-8, 5, 0.00390625]
+    to_scene_reference: !<BuiltinTransform> {style: ACEScg_to_ACES2065-1}
+  
+  - !<ColorSpace>
+    name: ACEScct
+    family: ACES
+    encoding: log
+    description: |
+      ACEScct (AP1 primaries, log encoding)
+      YOUR GRADING COLORSPACE - use for color correction
+    isdata: false
+    allocation: uniform
+    allocationvars: [-0.249136, 1.468]
+    to_scene_reference: !<BuiltinTransform> {style: ACEScct_to_ACES2065-1}
+  
+  - !<ColorSpace>
+    name: ACEScc
+    family: ACES
+    encoding: log
+    description: |
+      ACEScc (AP1 primaries, pure log)
+      Alternative grading space (less common)
+    isdata: false
+    allocation: uniform
+    allocationvars: [-0.3584, 1.468]
+    to_scene_reference: !<BuiltinTransform> {style: ACEScc_to_ACES2065-1}
+
+  # ---------------------------------------------------------------------------
+  # RED Camera (Your primary camera)
+  # ---------------------------------------------------------------------------
+  - !<ColorSpace>
+    name: RED Log3G10 REDWideGamutRGB
+    family: Input/RED
+    encoding: log
+    description: |
+      RED Log3G10 / REDWideGamutRGB
+      YOUR PRIMARY INPUT - for R3D footage
+    isdata: false
+    allocation: uniform
+    allocationvars: [-0.2, 1.6]
+    to_scene_reference: !<BuiltinTransform> {style: RED_LOG3G10-RWG_to_ACES2065-1}
+
+  # ---------------------------------------------------------------------------
+  # ARRI Camera
+  # ---------------------------------------------------------------------------
+  - !<ColorSpace>
+    name: ARRI LogC3 AWG
+    family: Input/ARRI
+    encoding: log
+    description: |
+      ARRI LogC3 (EI800) / ARRI Wide Gamut 3
+      For ARRI ALEXA footage
+    isdata: false
+    allocation: uniform
+    allocationvars: [-0.1, 1.5]
+    to_scene_reference: !<BuiltinTransform> {style: ARRI_LOGC3_EI800_AWG_to_ACES2065-1}
+  
+  - !<ColorSpace>
+    name: ARRI LogC4 AWG4
+    family: Input/ARRI
+    encoding: log
+    description: |
+      ARRI LogC4 / ARRI Wide Gamut 4
+      For ARRI ALEXA 35 footage
+    isdata: false
+    allocation: uniform
+    allocationvars: [-0.3, 1.6]
+    to_scene_reference: !<BuiltinTransform> {style: ARRI_LOGC4_to_ACES2065-1}
+
+  # ---------------------------------------------------------------------------
+  # Sony Camera
+  # ---------------------------------------------------------------------------
+  - !<ColorSpace>
+    name: Sony S-Log3 S-Gamut3
+    family: Input/Sony
+    encoding: log
+    description: |
+      Sony S-Log3 / S-Gamut3
+      For Sony Venice, FX6, FX9, A7S, etc.
+    isdata: false
+    allocation: uniform
+    allocationvars: [-0.1, 1.5]
+    to_scene_reference: !<BuiltinTransform> {style: SONY_SLOG3_SGAMUT3_to_ACES2065-1}
+  
+  - !<ColorSpace>
+    name: Sony S-Log3 S-Gamut3.Cine
+    family: Input/Sony
+    encoding: log
+    description: |
+      Sony S-Log3 / S-Gamut3.Cine
+      For Sony cameras with S-Gamut3.Cine selected
+    isdata: false
+    allocation: uniform
+    allocationvars: [-0.1, 1.5]
+    to_scene_reference: !<BuiltinTransform> {style: SONY_SLOG3_SGAMUT3.CINE_to_ACES2065-1}
+
+  # ---------------------------------------------------------------------------
+  # Blackmagic Camera
+  # ---------------------------------------------------------------------------
+  - !<ColorSpace>
+    name: Blackmagic Film Gen5 BWG
+    family: Input/Blackmagic
+    encoding: log
+    description: |
+      Blackmagic Film Gen 5 / Blackmagic Wide Gamut
+      For BMPCC 6K, URSA, etc.
+    isdata: false
+    allocation: uniform
+    allocationvars: [-0.1, 1.5]
+    to_scene_reference: !<BuiltinTransform> {style: BLACKMAGIC_FilmGen5-BWG_to_ACES2065-1}
+
+  # ---------------------------------------------------------------------------
+  # Output Colorspaces
+  # ---------------------------------------------------------------------------
+  - !<ColorSpace>
+    name: Rec.709
+    family: Output
+    encoding: sdr-video
+    description: |
+      Rec.709 / BT.1886 (2.4 gamma)
+      YOUR PRIMARY OUTPUT for TV delivery
+    isdata: false
+    from_scene_reference: !<GroupTransform>
+      children:
+        - !<BuiltinTransform> {style: ACEScg_to_ACES2065-1, direction: inverse}
+        - !<BuiltinTransform> {style: ACES-OUTPUT - ACES2065-1_to_CIE-XYZ-D65 - SDR-VIDEO_1.0}
+        - !<BuiltinTransform> {style: DISPLAY - CIE-XYZ-D65_to_REC.1886-REC.709}
+  
+  - !<ColorSpace>
+    name: sRGB
+    family: Output
+    encoding: sdr-video
+    description: |
+      sRGB
+      For web delivery, thumbnails, etc.
+    isdata: false
+    from_scene_reference: !<GroupTransform>
+      children:
+        - !<BuiltinTransform> {style: ACEScg_to_ACES2065-1, direction: inverse}
+        - !<BuiltinTransform> {style: ACES-OUTPUT - ACES2065-1_to_CIE-XYZ-D65 - SDR-VIDEO_1.0}
+        - !<BuiltinTransform> {style: DISPLAY - CIE-XYZ-D65_to_sRGB}
+  
+  - !<ColorSpace>
+    name: Rec.2100 PQ
+    family: Output
+    encoding: hdr-video
+    description: |
+      Rec.2100 PQ (HDR)
+      For HDR delivery (future use)
+    isdata: false
+    from_scene_reference: !<GroupTransform>
+      children:
+        - !<BuiltinTransform> {style: ACEScg_to_ACES2065-1, direction: inverse}
+        - !<BuiltinTransform> {style: ACES-OUTPUT - ACES2065-1_to_CIE-XYZ-D65 - HDR-VIDEO-1000nit-15nit-REC2020lim_1.1}
+        - !<BuiltinTransform> {style: DISPLAY - CIE-XYZ-D65_to_REC.2100-PQ}
+
+  # ---------------------------------------------------------------------------
+  # Utility Colorspaces
+  # ---------------------------------------------------------------------------
+  - !<ColorSpace>
+    name: Raw
+    family: Utility
+    encoding: data
+    description: Data (no color transform)
+    isdata: true
+  
+  - !<ColorSpace>
+    name: CIE XYZ-D65
+    family: Utility
+    encoding: scene-linear
+    description: CIE XYZ with D65 white point
+    isdata: false
+    to_scene_reference: !<BuiltinTransform> {style: UTILITY - ACES-AP0_to_CIE-XYZ-D65_BFD, direction: inverse}
+
+  # ---------------------------------------------------------------------------
+  # Legacy / Interchange
+  # ---------------------------------------------------------------------------
+  - !<ColorSpace>
+    name: Linear sRGB
+    family: Utility
+    encoding: scene-linear
+    description: |
+      Linear Rec.709 / sRGB primaries
+      For interchange with apps that use linear sRGB
+    isdata: false
+    to_scene_reference: !<BuiltinTransform> {style: UTILITY - LINEAR-REC.709_to_ACES2065-1}
+  
+  - !<ColorSpace>
+    name: sRGB Encoded
+    family: Utility
+    encoding: sdr-video
+    description: |
+      sRGB encoded texture/image colorspace
+      For 8-bit textures, JPGs, PNGs, etc.
+    isdata: false
+    to_scene_reference: !<GroupTransform>
+      children:
+        - !<BuiltinTransform> {style: CURVE - sRGB_to_LINEAR}
+        - !<BuiltinTransform> {style: UTILITY - LINEAR-REC.709_to_ACES2065-1}

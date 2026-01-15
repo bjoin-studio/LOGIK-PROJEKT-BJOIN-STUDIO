@@ -12,11 +12,11 @@
 # License:      GNU General Public License v3.0 (GPL-3.0).
 #               https://www.gnu.org/licenses/gpl-3.0.en.html
 
-# Version:      2026.2.0
+# Version:      2026.1.0
 # Status:       Production
 # Type:         Application
 # Created:      2025-07-01
-# Modified:     2025-10-30
+# Modified:     2025-08-03
 
 # Changelog:    Changelog at bottom of script.
 # -------------------------------------------------------------------------- #
@@ -25,16 +25,17 @@ from PySide6.QtCore import (
     QThread,
     QObject,
     Signal,
-    Slot
+    Slot,
+    Qt
 )
 
 from PySide6.QtWidgets import (
     QWidget,
-    QMainWindow,
     QVBoxLayout,
     QHBoxLayout,
     QFileDialog,
-    QMessageBox
+    QMessageBox,
+    QScrollArea
 )
 
 from src.ui import (
@@ -108,23 +109,15 @@ class Worker(QObject):
         self,
         template_info_data,
         template_params_data,
-        user_chosen_path
+        user_chosen_path # New parameter
     ):
         try:
-            # First, save the current data to the session file
             export_message = self.app_logic.export_logik_projekt_template(
                 template_info_data,
                 template_params_data
             )
             logging.info(export_message)
-
-            # Now that the session file is updated, copy it to the user's chosen path
-            if user_chosen_path:
-                source_file_path = "pref/session-preferences/current_session-template.json"
-                shutil.copy(source_file_path, user_chosen_path)
-                logging.info(f"Template also saved to: {user_chosen_path} (User-chosen path)")
-
-            self.template_exported.emit(export_message, user_chosen_path)
+            self.template_exported.emit(export_message, user_chosen_path) # Emit both messages
         except Exception as e:
             self.error.emit(str(e))
         finally:
@@ -150,34 +143,47 @@ class Worker(QObject):
             self.finished.emit()
 
 
-class AppWindow(QMainWindow):
+class AppWindow(QWidget):
     create_projekt_requested = Signal(dict)
     export_template_requested = Signal(dict, dict, str)
     import_template_requested = Signal(str)
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, master=None):
+        super().__init__(master)
 
         self.app_logic = AppLogic()
 
         logging.debug("AppWindow initialized.")
 
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
-
-        self.main_layout = QHBoxLayout(central_widget)
+        # Create a scroll area to handle small screens
+        self.scroll_area = QScrollArea(self)
+        self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.scroll_area.setFrameShape(QScrollArea.NoFrame)
+        
+        # Create a container widget for the scroll area
+        self.scroll_content = QWidget()
+        self.main_layout = QHBoxLayout(self.scroll_content)
         self.main_layout.setContentsMargins(
             *ui_config.MAIN_LAYOUT_MARGINS
         )
+        
+        self.scroll_area.setWidget(self.scroll_content)
+        
+        # Create the outer layout that holds the scroll area
+        outer_layout = QVBoxLayout(self)
+        outer_layout.setContentsMargins(0, 0, 0, 0)
+        outer_layout.addWidget(self.scroll_area)
 
-        self.left_container = QWidget(self)
+        self.left_container = QWidget(self.scroll_content)
         self.left_container.setFixedWidth(
             ui_config.LEFT_CONTAINER_WIDTH
         )
         self.left_layout = QVBoxLayout(self.left_container)
         self.main_layout.addWidget(self.left_container)
 
-        self.right_container = QWidget(self)
+        self.right_container = QWidget(self.scroll_content)
         self.right_container.setFixedWidth(
             ui_config.RIGHT_CONTAINER_WIDTH
         )
@@ -520,8 +526,8 @@ class AppWindow(QMainWindow):
             source_file_path = "pref/session-preferences/current_session-template.json"
 
             # Define the default target directory (~/Documents/LOGIK-PROJEKT-exported-templates)
-            documents_path = os.path.expanduser("~/")
-            default_target_dir = os.path.join(documents_path, "Documents/LOGIK-PROJEKT-exported-templates")
+            documents_path = os.path.expanduser("~/Documents")
+            default_target_dir = os.path.join(documents_path, "LOGIK-PROJEKT-exported-templates")
 
             # Ensure the default target directory exists
             os.makedirs(default_target_dir, exist_ok=True)
@@ -545,8 +551,9 @@ class AppWindow(QMainWindow):
                 save_file_path = file_dialog.selectedFiles()[0]
 
             if save_file_path: # If user didn't cancel the dialog
-                # The worker will handle the file copy
-                pass
+                # Copy the file to the user-selected location
+                shutil.copy(source_file_path, save_file_path)
+                logging.info(f"Template also saved to: {save_file_path} (User-chosen path) and {source_file_path} (Automatic path)")
 
             self.export_template_requested.emit(
                 template_info_data,
@@ -614,24 +621,6 @@ class AppWindow(QMainWindow):
                 "LOGIK-PROJEKT creation aborted due to validation failure."
             )
 
-    def closeEvent(self, event):
-        """
-        Handles the window close event to ensure the worker thread is
-        properly terminated.
-        """
-        logging.info("Close event triggered. Shutting down worker thread...")
-
-        if self.thread.isRunning():
-            self.thread.quit()
-            # Wait for the thread to finish. Give it a reasonable timeout.
-            if not self.thread.wait(5000):  # 5 seconds
-                logging.warning("Worker thread did not quit in time. Terminating...")
-                self.thread.terminate()
-                self.thread.wait()  # Wait for termination to complete
-
-        logging.info("Worker thread stopped. Accepting close event.")
-        event.accept()
-
 
 # -------------------------------------------------------------------------- #
 
@@ -666,10 +655,4 @@ class AppWindow(QMainWindow):
 # C2 A9 32 30 32 35 53 54 52 45 4E 47 54 48 2D 49 4E 2D 4E 55 4D 42 45 52 53 #
 # -------------------------------------------------------------------------- #
 # Changelog:
-# -------------------------------------------------------------------------- #
-# Version:      2026.2.0
-# Modified:     2025-10-30
-# Changelist:   Updated version to 2026.2.0.
-#               Verified compatibility with Autodesk Flame 2026.2.0.
-#               No code changes required.
 # -------------------------------------------------------------------------- #

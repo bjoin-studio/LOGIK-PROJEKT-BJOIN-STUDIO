@@ -33,10 +33,6 @@
 
 # filename: menu.py
 
-# Multi-environment script for LOGIK-PROJEKT round-trip integration
-# This script is designed to work in both Nuke and Flame environments
-# When loaded in Flame, Nuke-specific functionality is gracefully skipped
-
 # Installation:
 # Windows: C:\Users\YourUsername\.nuke\menu.py
 # macOS: /Users/YourUsername/.nuke/menu.py
@@ -45,47 +41,22 @@
 # ========================================================================== #
 # This section defines the import statements and directory paths.
 # ========================================================================== #
+# NOTE: This file is a Nuke menu.py TEMPLATE that gets copied to projects.
+# It should NOT be executed by Flame. Guard imports to prevent errors.
 
-import os
 import os.path
 import re
-import sys
 
-# Detect the current DCC environment
-def detect_environment():
-    """Detect if we're running in Nuke, Flame, or another environment"""
-    # Check for Nuke-specific environment variables
-    if os.environ.get('NUKE_PATH') or 'nuke' in sys.executable.lower():
-        return 'nuke'
-    
-    # Check for Flame-specific modules or environment
-    try:
-        import flame
-        return 'flame'
-    except ImportError:
-        pass
-    
-    # Check Flame environment variables
-    if (os.environ.get('DL_SOFTWARE') == 'flame' or 
-        os.environ.get('FLAME_PROJECT') or
-        'flame' in sys.executable.lower()):
-        return 'flame'
-    
-    return 'unknown'
-
-CURRENT_ENVIRONMENT = detect_environment()
-
-# Only import nuke modules if we're running in Nuke environment
+# Only import Nuke modules when actually running inside Nuke
 try:
     import nuke
     import nukescripts
-    NUKE_AVAILABLE = True
+    RUNNING_IN_NUKE = True
 except ImportError:
-    # Not running in Nuke - this is expected in Flame environment
-    NUKE_AVAILABLE = False
-    if CURRENT_ENVIRONMENT == 'nuke':
-        # This would be unexpected - Nuke environment but modules not available
-        print(f"Warning: Detected Nuke environment but unable to import nuke modules")
+    # Not running in Nuke (e.g., being scanned by Flame or another app)
+    RUNNING_IN_NUKE = False
+    nuke = None
+    nukescripts = None
 
 try:
     from PySide6 import QtWidgets, QtCore, QtGui
@@ -94,11 +65,10 @@ except ImportError:
 
 # Function to update the versioning in the file paths of all write nodes
 def update_write_node_version():
-  
     """Increments the versioning in the file paths of all write nodes"""
-    if not NUKE_AVAILABLE:
-        return
-        
+    if not RUNNING_IN_NUKE:
+        return  # Skip if not in Nuke
+    
     root_name = nuke.toNode("root").name()
 
     # Get the version number from the script name
@@ -139,8 +109,8 @@ def update_write_node_version():
                     file_knob.setValue(new_path)
 
 
-# Add a callback to the script_save event - only in Nuke environment
-if NUKE_AVAILABLE:
+# Add a callback to the script_save event (only when running in Nuke)
+if RUNNING_IN_NUKE:
     nuke.addOnScriptSave(update_write_node_version)
 
 # ========================================================================== #

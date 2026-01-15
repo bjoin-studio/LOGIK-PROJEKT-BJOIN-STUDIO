@@ -1,6 +1,12 @@
 {
   "PROJEKT Configurations": [
     {
+      "PROJEKT Configuration Name": "bjoin-studio",
+      "PROJEKT Filesystem Tree": "pref/site-prefs/custom-prefs/bjoin-studio/filesystem-tree.json",
+      "PROJEKT Flame Workspace": "pref/site-prefs/custom-prefs/bjoin-studio/flame-workspace.json",
+      "PROJEKT Flame Bookmarks": "pref/site-prefs/custom-prefs/bjoin-studio/cf_bookmarks.json"
+    },
+    {
       "PROJEKT Configuration Name": "logik-projekt",
       "PROJEKT Filesystem Tree": "pref/site-prefs/default-prefs/logik-projekt-prefs/filesystem-tree.json",
       "PROJEKT Flame Workspace": "pref/site-prefs/default-prefs/logik-projekt-prefs/flame-workspace.json",

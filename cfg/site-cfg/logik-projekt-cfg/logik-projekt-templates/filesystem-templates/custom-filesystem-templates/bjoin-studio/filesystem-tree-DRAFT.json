@@ -1,0 +1,114 @@
+{
+  "_comment": "BJOIN-STUDIO CUSTOM TEMPLATE - Edit this file to customize your folder structure",
+  "_instructions": "Remove folders you don't need, add new ones. Keep 'flame/', 'logs/', 'cfg/' intact.",
+  "original_name": "bjoin-studio",
+  "original_depth": 0,
+  "analysis": {
+    "timestamp": "2026_01_10",
+    "root_directory": "bjoin-studio",
+    "total_subdirectories": 85,
+    "notes": "Simplified from 212 dirs - trimmed docs, kept essentials"
+  },
+  "subdirectories": [
+    {"path": "assets", "name": "assets", "depth": 1, "hasChildren": true, "parent": "projekt directories"},
+    {"path": "assets/audio", "name": "audio", "depth": 2, "hasChildren": true, "parent": "assets"},
+    {"path": "assets/audio/mix", "name": "mix", "depth": 3, "hasChildren": false, "parent": "audio"},
+    {"path": "assets/audio/music", "name": "music", "depth": 3, "hasChildren": false, "parent": "audio"},
+    {"path": "assets/audio/production", "name": "production", "depth": 3, "hasChildren": false, "parent": "audio"},
+    {"path": "assets/audio/voiceover", "name": "voiceover", "depth": 3, "hasChildren": false, "parent": "audio"},
+    {"path": "assets/fonts", "name": "fonts", "depth": 2, "hasChildren": false, "parent": "assets"},
+    {"path": "assets/graphics", "name": "graphics", "depth": 2, "hasChildren": true, "parent": "assets"},
+    {"path": "assets/graphics/artwork", "name": "artwork", "depth": 3, "hasChildren": false, "parent": "graphics"},
+    {"path": "assets/graphics/images", "name": "images", "depth": 3, "hasChildren": false, "parent": "graphics"},
+    {"path": "assets/graphics/photoshop", "name": "photoshop", "depth": 3, "hasChildren": false, "parent": "graphics"},
+    {"path": "assets/graphics/titles", "name": "titles", "depth": 3, "hasChildren": false, "parent": "graphics"},
+    {"path": "assets/video", "name": "video", "depth": 2, "hasChildren": true, "parent": "assets"},
+    {"path": "assets/video/footage", "name": "footage", "depth": 3, "hasChildren": true, "parent": "video"},
+    {"path": "assets/video/footage/raw", "name": "raw", "depth": 4, "hasChildren": false, "parent": "footage", "_comment": "R3D files go here"},
+    {"path": "assets/video/footage/transcodes", "name": "transcodes", "depth": 4, "hasChildren": false, "parent": "footage"},
+    {"path": "assets/video/footage/graded", "name": "graded", "depth": 4, "hasChildren": false, "parent": "footage"},
+    {"path": "assets/video/footage/stock", "name": "stock", "depth": 4, "hasChildren": false, "parent": "footage"},
+    
+    {"path": "backup", "name": "backup", "depth": 1, "hasChildren": true, "parent": "projekt directories", "_critical": true},
+    {"path": "backup/backup-scripts", "name": "backup-scripts", "depth": 2, "hasChildren": false, "parent": "backup"},
+    
+    {"path": "cfg", "name": "cfg", "depth": 1, "hasChildren": true, "parent": "projekt directories", "_critical": true},
+    {"path": "cfg/pref", "name": "pref", "depth": 2, "hasChildren": false, "parent": "cfg"},
+    {"path": "cfg/template", "name": "template", "depth": 2, "hasChildren": false, "parent": "cfg"},
+    {"path": "cfg/workstation", "name": "workstation", "depth": 2, "hasChildren": false, "parent": "cfg"},
+    
+    {"path": "docs", "name": "docs", "depth": 1, "hasChildren": true, "parent": "projekt directories", "_comment": "SIMPLIFIED - add back what you need"},
+    {"path": "docs/briefs", "name": "briefs", "depth": 2, "hasChildren": false, "parent": "docs"},
+    {"path": "docs/contracts", "name": "contracts", "depth": 2, "hasChildren": false, "parent": "docs"},
+    {"path": "docs/reference", "name": "reference", "depth": 2, "hasChildren": false, "parent": "docs"},
+    {"path": "docs/notes", "name": "notes", "depth": 2, "hasChildren": false, "parent": "docs"},
+    
+    {"path": "editorial", "name": "editorial", "depth": 1, "hasChildren": true, "parent": "projekt directories"},
+    {"path": "editorial/aaf", "name": "aaf", "depth": 2, "hasChildren": false, "parent": "editorial"},
+    {"path": "editorial/edl", "name": "edl", "depth": 2, "hasChildren": false, "parent": "editorial"},
+    {"path": "editorial/xml", "name": "xml", "depth": 2, "hasChildren": false, "parent": "editorial"},
+    {"path": "editorial/prep", "name": "prep", "depth": 2, "hasChildren": false, "parent": "editorial"},
+    {"path": "editorial/project-files", "name": "project-files", "depth": 2, "hasChildren": true, "parent": "editorial"},
+    {"path": "editorial/project-files/premiere", "name": "premiere", "depth": 3, "hasChildren": false, "parent": "project-files"},
+    {"path": "editorial/project-files/resolve", "name": "resolve", "depth": 3, "hasChildren": false, "parent": "project-files"},
+    {"path": "editorial/project-files/fcp", "name": "fcp", "depth": 3, "hasChildren": false, "parent": "project-files"},
+    
+    {"path": "flame", "name": "flame", "depth": 1, "hasChildren": true, "parent": "projekt directories", "_critical": true, "_comment": "DO NOT MODIFY"},
+    {"path": "flame/archive", "name": "archive", "depth": 2, "hasChildren": true, "parent": "flame"},
+    {"path": "flame/archive/scripts", "name": "scripts", "depth": 3, "hasChildren": false, "parent": "archive"},
+    {"path": "flame/iterations", "name": "iterations", "depth": 2, "hasChildren": false, "parent": "flame"},
+    {"path": "flame/setups", "name": "setups", "depth": 2, "hasChildren": false, "parent": "flame"},
+    
+    {"path": "logs", "name": "logs", "depth": 1, "hasChildren": false, "parent": "projekt directories", "_critical": true},
+    
+    {"path": "masters", "name": "masters", "depth": 1, "hasChildren": true, "parent": "projekt directories"},
+    {"path": "masters/deliverables", "name": "deliverables", "depth": 2, "hasChildren": false, "parent": "masters"},
+    {"path": "masters/versioned", "name": "versioned", "depth": 2, "hasChildren": false, "parent": "masters"},
+    
+    {"path": "processes", "name": "processes", "depth": 1, "hasChildren": true, "parent": "projekt directories"},
+    {"path": "processes/tracking", "name": "tracking", "depth": 2, "hasChildren": true, "parent": "processes"},
+    {"path": "processes/tracking/2d", "name": "2d", "depth": 3, "hasChildren": false, "parent": "tracking"},
+    {"path": "processes/tracking/3d", "name": "3d", "depth": 3, "hasChildren": false, "parent": "tracking"},
+    {"path": "processes/rotoscope", "name": "rotoscope", "depth": 2, "hasChildren": false, "parent": "processes"},
+    {"path": "processes/ml", "name": "ml", "depth": 2, "hasChildren": false, "parent": "processes", "_comment": "Machine learning outputs"},
+    
+    {"path": "reference", "name": "reference", "depth": 1, "hasChildren": true, "parent": "projekt directories"},
+    {"path": "reference/images", "name": "images", "depth": 2, "hasChildren": false, "parent": "reference"},
+    {"path": "reference/videos", "name": "videos", "depth": 2, "hasChildren": false, "parent": "reference"},
+    {"path": "reference/style_guide", "name": "style_guide", "depth": 2, "hasChildren": false, "parent": "reference"},
+    
+    {"path": "scenes", "name": "scenes", "depth": 1, "hasChildren": true, "parent": "projekt directories"},
+    {"path": "scenes/blender", "name": "blender", "depth": 2, "hasChildren": false, "parent": "scenes"},
+    {"path": "scenes/c4d", "name": "c4d", "depth": 2, "hasChildren": false, "parent": "scenes"},
+    {"path": "scenes/houdini", "name": "houdini", "depth": 2, "hasChildren": false, "parent": "scenes"},
+    {"path": "scenes/maya", "name": "maya", "depth": 2, "hasChildren": false, "parent": "scenes"},
+    {"path": "scenes/after_effects", "name": "after_effects", "depth": 2, "hasChildren": false, "parent": "scenes"},
+    {"path": "scenes/usd", "name": "usd", "depth": 2, "hasChildren": false, "parent": "scenes"},
+    {"path": "scenes/alembic", "name": "alembic", "depth": 2, "hasChildren": false, "parent": "scenes"},
+    {"path": "scenes/fbx", "name": "fbx", "depth": 2, "hasChildren": false, "parent": "scenes"},
+    
+    {"path": "shots", "name": "shots", "depth": 1, "hasChildren": false, "parent": "projekt directories", "_comment": "Shots created dynamically by Flame"},
+    
+    {"path": "software", "name": "software", "depth": 1, "hasChildren": true, "parent": "projekt directories", "_critical": true},
+    {"path": "software/bin", "name": "bin", "depth": 2, "hasChildren": false, "parent": "software"},
+    {"path": "software/etc", "name": "etc", "depth": 2, "hasChildren": false, "parent": "software"},
+    {"path": "software/ocio", "name": "ocio", "depth": 2, "hasChildren": false, "parent": "software", "_comment": "Custom OCIO configs here"},
+    {"path": "software/nuke", "name": "nuke", "depth": 2, "hasChildren": true, "parent": "software"},
+    {"path": "software/nuke/gizmos", "name": "gizmos", "depth": 3, "hasChildren": false, "parent": "nuke"},
+    {"path": "software/nuke/pyScripts", "name": "pyScripts", "depth": 3, "hasChildren": false, "parent": "nuke"},
+    {"path": "software/nuke/repo", "name": "repo", "depth": 3, "hasChildren": false, "parent": "nuke"},
+    {"path": "software/nuke/toolsets", "name": "toolsets", "depth": 3, "hasChildren": false, "parent": "nuke"},
+    {"path": "software/templates", "name": "templates", "depth": 2, "hasChildren": true, "parent": "software"},
+    {"path": "software/templates/nuke", "name": "nuke", "depth": 3, "hasChildren": false, "parent": "templates"},
+    
+    {"path": "tmp", "name": "tmp", "depth": 1, "hasChildren": false, "parent": "projekt directories"},
+    
+    {"path": "utilities", "name": "utilities", "depth": 1, "hasChildren": true, "parent": "projekt directories"},
+    {"path": "utilities/luts", "name": "luts", "depth": 2, "hasChildren": false, "parent": "utilities", "_comment": "Camera LUTs, show LUTs"},
+    {"path": "utilities/ctf", "name": "ctf", "depth": 2, "hasChildren": false, "parent": "utilities", "_comment": "Flame Color Transform Files"},
+    
+    {"path": "work_in_progress", "name": "work_in_progress", "depth": 1, "hasChildren": true, "parent": "projekt directories"},
+    {"path": "work_in_progress/postings", "name": "postings", "depth": 2, "hasChildren": false, "parent": "work_in_progress"},
+    {"path": "work_in_progress/reviews", "name": "reviews", "depth": 2, "hasChildren": false, "parent": "work_in_progress"}
+  ]
+}

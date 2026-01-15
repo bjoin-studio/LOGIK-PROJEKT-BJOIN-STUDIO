@@ -39,9 +39,12 @@ Sections:
 
 # 1. Window Settings
 # ==================
-# Main window dimensions
+# Main window dimensions (default - will be scaled to screen if too large)
 WINDOW_WIDTH = 1920
 WINDOW_HEIGHT = 1080
+
+# Maximum percentage of screen the window should occupy (0.0 to 1.0)
+WINDOW_MAX_SCREEN_RATIO = 0.90
 
 # 2. Panel Settings
 # =================

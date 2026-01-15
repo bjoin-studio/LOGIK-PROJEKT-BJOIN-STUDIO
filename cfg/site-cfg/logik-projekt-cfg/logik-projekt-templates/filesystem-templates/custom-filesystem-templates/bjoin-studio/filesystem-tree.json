@@ -1,0 +1,241 @@
+{
+    "template_name": "bjoin-studio",
+    "template_version": "1.0.0",
+    "description": "BJoin Studio custom filesystem template for LOGIK-PROJEKT",
+    "author": "bjoin-studio",
+    "created": "2026-01-11",
+    "root_name": "<projekt_name>",
+    "subdirectories": [
+        {
+            "path": "assets"
+        },
+        {
+            "path": "assets/3d"
+        },
+        {
+            "path": "assets/3d/alembic"
+        },
+        {
+            "path": "assets/3d/blender"
+        },
+        {
+            "path": "assets/3d/fbx"
+        },
+        {
+            "path": "assets/3d/houdini"
+        },
+        {
+            "path": "assets/3d/usd"
+        },
+        {
+            "path": "assets/audio"
+        },
+        {
+            "path": "assets/audio/mix"
+        },
+        {
+            "path": "assets/audio/music"
+        },
+        {
+            "path": "assets/audio/production"
+        },
+        {
+            "path": "assets/audio/voiceover"
+        },
+        {
+            "path": "assets/fonts"
+        },
+        {
+            "path": "assets/graphics"
+        },
+        {
+            "path": "assets/graphics/artwork"
+        },
+        {
+            "path": "assets/graphics/images"
+        },
+        {
+            "path": "assets/graphics/photoshop"
+        },
+        {
+            "path": "assets/graphics/titles"
+        },
+        {
+            "path": "assets/video"
+        },
+        {
+            "path": "backup"
+        },
+        {
+            "path": "backup/backup-scripts"
+        },
+        {
+            "path": "camera_originals"
+        },
+        {
+            "path": "cfg"
+        },
+        {
+            "path": "cfg/pref"
+        },
+        {
+            "path": "cfg/template"
+        },
+        {
+            "path": "cfg/workstation"
+        },
+        {
+            "path": "docs"
+        },
+        {
+            "path": "docs/footage-notes"
+        },
+        {
+            "path": "docs/misc"
+        },
+        {
+            "path": "docs/work-logs"
+        },
+        {
+            "path": "editorial"
+        },
+        {
+            "path": "editorial/aaf"
+        },
+        {
+            "path": "editorial/edl"
+        },
+        {
+            "path": "editorial/prep"
+        },
+        {
+            "path": "editorial/project-files"
+        },
+        {
+            "path": "editorial/project-files/fcp"
+        },
+        {
+            "path": "editorial/project-files/premiere"
+        },
+        {
+            "path": "editorial/project-files/resolve"
+        },
+        {
+            "path": "editorial/xml"
+        },
+        {
+            "path": "flame"
+        },
+        {
+            "path": "flame/archive"
+        },
+        {
+            "path": "flame/archive/scripts"
+        },
+        {
+            "path": "flame/iterations"
+        },
+        {
+            "path": "flame/setups"
+        },
+        {
+            "path": "logs"
+        },
+        {
+            "path": "masters"
+        },
+        {
+            "path": "masters/deliverables"
+        },
+        {
+            "path": "masters/versioned"
+        },
+        {
+            "path": "processes"
+        },
+        {
+            "path": "processes/ml"
+        },
+        {
+            "path": "processes/rotoscope"
+        },
+        {
+            "path": "processes/tracking"
+        },
+        {
+            "path": "processes/tracking/2d"
+        },
+        {
+            "path": "processes/tracking/3d"
+        },
+        {
+            "path": "reference"
+        },
+        {
+            "path": "reference/images"
+        },
+        {
+            "path": "reference/style_guide"
+        },
+        {
+            "path": "reference/videos"
+        },
+        {
+            "path": "shots"
+        },
+        {
+            "path": "software"
+        },
+        {
+            "path": "software/bin"
+        },
+        {
+            "path": "software/etc"
+        },
+        {
+            "path": "software/nuke"
+        },
+        {
+            "path": "software/nuke/gizmos"
+        },
+        {
+            "path": "software/nuke/pyScripts"
+        },
+        {
+            "path": "software/nuke/repo"
+        },
+        {
+            "path": "software/nuke/toolsets"
+        },
+        {
+            "path": "software/ocio"
+        },
+        {
+            "path": "software/templates"
+        },
+        {
+            "path": "software/templates/nuke"
+        },
+        {
+            "path": "tmp"
+        },
+        {
+            "path": "utilities"
+        },
+        {
+            "path": "utilities/ctf"
+        },
+        {
+            "path": "utilities/luts"
+        },
+        {
+            "path": "work_in_progress"
+        },
+        {
+            "path": "work_in_progress/postings"
+        },
+        {
+            "path": "work_in_progress/reviews"
+        }
+    ]
+}

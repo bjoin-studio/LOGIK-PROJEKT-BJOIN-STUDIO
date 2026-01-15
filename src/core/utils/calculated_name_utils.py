@@ -11,11 +11,11 @@
 # License:      GNU General Public License v3.0 (GPL-3.0).
 #               https://www.gnu.org/licenses/gpl-3.0.en.html
 
-# Version:      2026.2.0
+# Version:      2026.1.0
 # Status:       Production
 # Type:         Utility
 # Created:      2025-07-01
-# Modified:     2025-10-30
+# Modified:     2025-08-03
 
 # Changelog:    Changelog at bottom of script.
 # -------------------------------------------------------------------------- #
@@ -64,7 +64,7 @@ def get_calculated_name(serial: str, client: str, campaign: str) -> str:
 
     # --- RECIPE 1: Serial, lowercase client, lowercase campaign ---
     # This is the default.
-    # calculated_name = f"{s_serial}_{s_client.lower()}_{s_campaign.lower()}"
+    #calculated_name = f"{s_serial}_{s_client.lower()}_{s_campaign.lower()}"
 
     # --- RECIPE 2: Serial, UPPERCASE client, UPPERCASE campaign ---
     # To use this recipe, remove the '#' from the line below and add a '#'
@@ -141,10 +141,4 @@ def get_calculated_name(serial: str, client: str, campaign: str) -> str:
 # C2 A9 32 30 32 35 53 54 52 45 4E 47 54 48 2D 49 4E 2D 4E 55 4D 42 45 52 53 #
 # -------------------------------------------------------------------------- #
 # Changelog:
-# -------------------------------------------------------------------------- #
-# Version:      2026.2.0
-# Modified:     2025-10-30
-# Changelist:   Updated version to 2026.2.0.
-#               Verified compatibility with Autodesk Flame 2026.2.0.
-#               No code changes required.
 # -------------------------------------------------------------------------- #

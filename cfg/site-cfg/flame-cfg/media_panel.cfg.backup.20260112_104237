@@ -1,0 +1,178 @@
+{
+    "Default Reels": {
+        "Batch Reels": [
+            {
+                "Name": "camera-originals",
+                "ColourTag": "Select Take",
+                "Colour": {
+                    "r": 0.10196077823638916,
+                    "g": 0.5019607543945313,
+                    "b": 0.2078431397676468,
+                    "a": 1.0
+                }
+            },
+            {
+                "Name": "precomps",
+                "ColourTag": "Yellow",
+                "Colour": {
+                    "r": 0.7843137383460999,
+                    "g": 0.7843137383460999,
+                    "b": 0.19607843458652497,
+                    "a": 1.0
+                }
+            },
+            {
+                "Name": "elements",
+                "ColourTag": "",
+                "Colour": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.0
+                }
+            },
+            {
+                "Name": "mattes",
+                "ColourTag": "",
+                "Colour": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.0
+                }
+            },
+            {
+                "Name": "tracking",
+                "ColourTag": "",
+                "Colour": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.0
+                }
+            },
+            {
+                "Name": "motion-vectors",
+                "ColourTag": "",
+                "Colour": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.0
+                }
+            },
+            {
+                "Name": "graphics",
+                "ColourTag": "",
+                "Colour": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.0
+                }
+            },
+            {
+                "Name": "reference",
+                "ColourTag": "",
+                "Colour": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.0
+                }
+            },
+            {
+                "Name": "notes",
+                "ColourTag": "",
+                "Colour": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.0
+                }
+            }
+        ],
+        "Shelf Reels": [
+            {
+                "Name": "Batch Renders",
+                "ColourTag": "",
+                "Colour": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.0
+                }
+            }
+        ],
+        "Reels": [
+            {
+                "Name": "Reel 1",
+                "ColourTag": "",
+                "Colour": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.0
+                }
+            },
+            {
+                "Name": "Reel 2",
+                "ColourTag": "",
+                "Colour": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.0
+                }
+            },
+            {
+                "Name": "Reel 3",
+                "ColourTag": "",
+                "Colour": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.0
+                }
+            },
+            {
+                "Name": "Reel 4",
+                "ColourTag": "",
+                "Colour": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.0
+                }
+            }
+        ],
+        "Sequence Reels": [
+            {
+                "Name": "Sequences",
+                "ColourTag": "",
+                "Colour": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.0,
+                    "a": 0.0
+                }
+            }
+        ]
+    },
+    "BatchGroupOutputDestinationReel": {
+        "ReelType": "Shelf Reels",
+        "ReelName": "Batch Renders"
+    },
+    "ReelGroupOutputDestinationReel": {
+        "ReelType": "Reels",
+        "ReelName": "Reel 1"
+    },
+    "BatchGroupAddToWorkspaceReel": {
+        "ReelType": "Shelf Reels",
+        "ReelName": "Batch Renders"
+    },
+    "ReelGroupAddToWorkspaceReel": {
+        "ReelType": "Reels",
+        "ReelName": "Reel 1"
+    }
+}
