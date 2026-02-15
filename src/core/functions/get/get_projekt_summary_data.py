@@ -57,7 +57,8 @@ def get_projekt_summary_data(
     # Environment Data
     current_user = get_current_user()['username']
     current_group = get_primary_group()
-    current_workstation = get_short_hostname()
+    # Use username-hostname format to prevent workspace collision during Flame upgrades
+    current_workstation = f"{current_user}-{get_short_hostname()}"
     current_os = "linux"  # Placeholder for actual OS detection
 
     # Flame Software Data
