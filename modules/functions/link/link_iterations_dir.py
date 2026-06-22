@@ -244,6 +244,24 @@ def symlink_iterations_dir(
         print(f"  Source path does not exist: {os.path.basename(source_path)}")
         return
     
+    if (config.get("iterations_storage") or "nas").lower() == "local":
+        # local-iterations mode: real local dir + additive pool seed; the iteration-
+        # mirror agent pushes it back to the pool. No symlink. rsync additive (no
+        # --delete); os.remove only ever drops a symlink here.
+        try:
+            os.makedirs(source_path, exist_ok=True)
+            if os.path.lexists(target_path) and os.path.islink(target_path):
+                os.remove(target_path)
+            os.makedirs(target_path, exist_ok=True)
+            subprocess.run(
+                ["rsync", "-a", source_path + os.sep, target_path + os.sep],
+                check=False
+            )
+            print("  iterations_storage=local: real local dir + additive pool seed")
+        except Exception as e:
+            print(f"  Error setting up local iterations: {e}")
+        return
+
     os.makedirs(os.path.dirname(target_path), exist_ok=True)
     
     try:

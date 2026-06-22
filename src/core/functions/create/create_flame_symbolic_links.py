@@ -24,7 +24,9 @@
 # -------------------------------------------------------------------------- #
 
 import os
+import json
 import logging
+import subprocess
 import time
 from src.core.utils import path_utils
 
@@ -33,6 +35,20 @@ from src.core.utils import path_utils
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
+
+
+def _iterations_storage_mode():
+    """iterations_storage from projekt_roots.json: 'local' (real dir + mirror) or
+    'nas' (legacy symlink, default). Read here so policy stays in one config file.
+    Any failure -> 'nas' (no behavior change)."""
+    try:
+        roots = (path_utils.get_repository_root_dir()
+                 / "resources" / "cfg" / "projekt_configuration"
+                 / "roots" / "projekt_roots.json")
+        with open(roots) as f:
+            return (json.load(f).get("iterations_storage") or "nas").lower()
+    except Exception:
+        return "nas"
 
 
 def create_flame_symbolic_links(
@@ -147,8 +163,27 @@ def create_flame_symbolic_links(
         "flame",
         "iterations"
     )
+    _iter_mode = _iterations_storage_mode()
     try:
-        if os.path.exists(source_path_iterations):
+        if _iter_mode == "local":
+            # local-iterations mode: make a REAL local dir + additive seed from the
+            # pool; the iteration-mirror agent pushes it back to the shared pool. No
+            # symlink. rsync is additive (no --delete); unlink only ever drops a symlink.
+            os.makedirs(source_path_iterations, exist_ok=True)
+            if os.path.islink(destination_path_iterations):
+                os.unlink(destination_path_iterations)
+            os.makedirs(destination_path_iterations, exist_ok=True)
+            subprocess.run(
+                ["rsync", "-a",
+                 source_path_iterations + os.sep,
+                 destination_path_iterations + os.sep],
+                check=False
+            )
+            logging.info(
+                f"iterations_storage=local: real dir {destination_path_iterations} "
+                f"(mirror -> {source_path_iterations})"
+            )
+        elif os.path.exists(source_path_iterations):
             if not os.path.lexists(destination_path_iterations):
                 os.symlink(
                     source_path_iterations,
