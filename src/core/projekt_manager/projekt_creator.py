@@ -277,6 +277,20 @@ class ProjektCreator:
             config.logik_projekt_path
         )
 
+        # 18.5 bjoin studio: register the new projekt with this station's
+        #      services (iteration-mirror today; Kitsu / Frame.io / job config
+        #      to follow). Runs BEFORE Flame launches so the projekt is already
+        #      registered by the time anyone saves into it. Never fatal --
+        #      see bjoin_studio/post_create.py for why.
+        try:
+            from bjoin_studio import post_create as bjoin_post_create
+            bjoin_post_create.run_all(config)
+        except Exception as bjoin_exc:
+            logger.error(
+                f"bjoin_studio post-create hooks failed "
+                f"(projekt was still created): {bjoin_exc}"
+            )
+
         # 19. Launch Flame (Optional)
         if config.launch_flame_after_creation:
             logger.info(
