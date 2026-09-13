@@ -17,10 +17,10 @@ The two stations run different agents, so this writes two different files:
 
     Linux (supercom)    ~/.config/iteration-mirror/lsyncd.conf.lua
                         one `sync { pushLayer("<SHORT>"), source, target }`
-                        block per projekt. NOT reloaded automatically: lsyncd
-                        is started by hand there (its unit is disabled), so
-                        bouncing it would interrupt a syncer we did not start.
-                        The hook reports that a restart is pending instead.
+                        block per projekt. Reloaded by restarting the
+                        lsyncd whose command line names THIS config, with its
+                        own argv. Its systemd unit is disabled and it is
+                        hand-started, so there is nothing else to ask.
 
 Idempotent: if the projekt is already in the file, nothing is written.
 """
@@ -116,11 +116,70 @@ def _linux_register(ctx: Dict, res: Dict) -> Dict:
         f.write(block)
     res["conf"] = LINUX_CONF
     res["appended"] = True
-    # Deliberately NOT restarting lsyncd -- see module docstring.
-    res["reloaded"] = False
-    res["restart_required"] = "lsyncd must be restarted to pick up %s" % short
+    res.update(_linux_reload(short))
     res["ok"] = True
     return res
+
+
+def _linux_reload(short: str) -> Dict:
+    """Restart the lsyncd that is serving OUR config, so the block we just
+    appended is actually live.
+
+    The earlier version only reported "restart required". That is precisely
+    the LC-26_677 failure: a config line added and never activated, and nobody
+    noticing for days. A registration that needs a human step is a
+    registration that eventually does not happen.
+
+    Strictly scoped: we only ever touch a process whose command line names
+    THIS config file, and we restart it with the exact invocation it was
+    already using. If no such process is running there is nothing to reload
+    (lsyncd reads the config at startup, so a later start picks it up).
+    """
+    out: Dict = {"reloaded": False}
+    try:
+        ps = subprocess.run(["ps", "-eo", "pid=,args="],
+                            capture_output=True, text=True, timeout=20).stdout
+    except Exception as exc:
+        out["reload_error"] = "could not list processes: %s" % exc
+        return out
+
+    target = None
+    for line in ps.splitlines():
+        if "lsyncd" in line and LINUX_CONF in line:
+            parts = line.split(None, 1)
+            if len(parts) == 2 and parts[0].isdigit():
+                target = (int(parts[0]), parts[1].strip())
+                break
+    if target is None:
+        out["reload_note"] = ("no lsyncd running against %s — it will pick up "
+                              "%s when next started" % (LINUX_CONF, short))
+        return out
+
+    pid, argv = target
+    try:
+        subprocess.run(["kill", str(pid)], capture_output=True, timeout=20)
+        for _ in range(20):                       # wait for it to actually go
+            time.sleep(0.5)
+            if subprocess.run(["kill", "-0", str(pid)],
+                              capture_output=True).returncode != 0:
+                break
+        # Re-launch detached with the SAME argv, so we never invent a new
+        # invocation for a service we did not configure.
+        subprocess.Popen(["setsid"] + argv.split(),
+                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                         stdin=subprocess.DEVNULL, start_new_session=True)
+        time.sleep(3)
+        ps2 = subprocess.run(["ps", "-eo", "args="],
+                             capture_output=True, text=True, timeout=20).stdout
+        if LINUX_CONF in ps2:
+            out["reloaded"] = True
+            out["reload_note"] = "lsyncd restarted; %s is live" % short
+        else:
+            out["reload_error"] = ("lsyncd did NOT come back — start it with: "
+                                   "%s" % argv)
+    except Exception as exc:
+        out["reload_error"] = "%s: %s" % (type(exc).__name__, exc)
+    return out
 
 
 def run(ctx: Dict) -> Dict:

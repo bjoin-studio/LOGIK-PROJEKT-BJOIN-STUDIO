@@ -38,7 +38,10 @@ ck(r3.get("appended") is True, "linux: appended new project")
 ck('pushLayer("LC-26_678")' in lbody, "linux: pushLayer block present")
 ck(lbody.count("sync {") == 2, "linux: exactly one new sync block")
 ck(lbody.rstrip().endswith("}"), "linux: file still ends on a closed block")
-ck(r3.get("reloaded") is False and "restart_required" in r3, "linux: reports restart pending, does NOT bounce lsyncd")
+ck(r3.get("reloaded") is False and "reload_note" in r3,
+   "linux: no lsyncd against the SANDBOX conf -> reports, touches nothing real")
+ck("no lsyncd running against" in r3.get("reload_note", ""),
+   "linux: reload is scoped to the config it was given, never a stray lsyncd")
 r4 = H.run(ctx)
 ck(r4.get("already_present") is True, "linux: IDEMPOTENT on re-run")
 
