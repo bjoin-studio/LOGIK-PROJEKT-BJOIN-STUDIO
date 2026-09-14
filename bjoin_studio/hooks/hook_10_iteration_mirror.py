@@ -18,9 +18,13 @@ The two stations run different agents, so this writes two different files:
     Linux (supercom)    ~/.config/iteration-mirror/lsyncd.conf.lua
                         one `sync { pushLayer("<SHORT>"), source, target }`
                         block per projekt. Reloaded by restarting the
-                        lsyncd whose command line names THIS config, with its
-                        own argv. Its systemd unit is disabled and it is
-                        hand-started, so there is nothing else to ask.
+                        lsyncd whose command line names THIS config. If that
+                        process belongs to the systemd unit
+                        (iteration-mirror.service, Restart=always) we only
+                        TERM it and let systemd relaunch it -- respawning it
+                        ourselves is how supercomputer ended up running two
+                        lsyncds per projekt build (2026-09-12, 09-14). Only a
+                        hand-started lsyncd is relaunched with its own argv.
 
 Idempotent: if the projekt is already in the file, nothing is written.
 """
@@ -121,6 +125,23 @@ def _linux_register(ctx: Dict, res: Dict) -> Dict:
     return res
 
 
+SYSTEMD_UNIT_CGROUP = "/system.slice/iteration-mirror.service"
+
+
+def _reload_strategy(cgroup_text: str) -> str:
+    """'systemd' if the lsyncd's cgroup shows the iteration-mirror unit owns
+    it (systemd will relaunch it after a TERM), else 'respawn'."""
+    return "systemd" if SYSTEMD_UNIT_CGROUP in (cgroup_text or "") else "respawn"
+
+
+def _pid_cgroup(pid: int) -> str:
+    try:
+        with open("/proc/%d/cgroup" % pid, encoding="utf-8") as f:
+            return f.read()
+    except OSError:
+        return ""
+
+
 def _linux_reload(short: str) -> Dict:
     """Restart the lsyncd that is serving OUR config, so the block we just
     appended is actually live.
@@ -156,6 +177,8 @@ def _linux_reload(short: str) -> Dict:
         return out
 
     pid, argv = target
+    strategy = _reload_strategy(_pid_cgroup(pid))
+    out["strategy"] = strategy
     try:
         subprocess.run(["kill", str(pid)], capture_output=True, timeout=20)
         for _ in range(20):                       # wait for it to actually go
@@ -163,20 +186,31 @@ def _linux_reload(short: str) -> Dict:
             if subprocess.run(["kill", "-0", str(pid)],
                               capture_output=True).returncode != 0:
                 break
-        # Re-launch detached with the SAME argv, so we never invent a new
-        # invocation for a service we did not configure.
-        subprocess.Popen(["setsid"] + argv.split(),
-                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                         stdin=subprocess.DEVNULL, start_new_session=True)
-        time.sleep(3)
-        ps2 = subprocess.run(["ps", "-eo", "args="],
-                             capture_output=True, text=True, timeout=20).stdout
-        if LINUX_CONF in ps2:
+        if strategy == "respawn":
+            # Hand-started lsyncd: re-launch detached with the SAME argv, so
+            # we never invent a new invocation for a service we did not
+            # configure.
+            subprocess.Popen(["setsid"] + argv.split(),
+                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                             stdin=subprocess.DEVNULL, start_new_session=True)
+        # systemd (Restart=always) relaunches its own within RestartSec;
+        # either way, wait for a NEW lsyncd on this config to show up.
+        back = False
+        for _ in range(20):
+            time.sleep(0.5)
+            ps2 = subprocess.run(["ps", "-eo", "pid=,args="],
+                                 capture_output=True, text=True, timeout=20).stdout
+            if any("lsyncd" in ln and LINUX_CONF in ln
+                   and ln.split(None, 1)[0] != str(pid) for ln in ps2.splitlines()):
+                back = True
+                break
+        if back:
             out["reloaded"] = True
-            out["reload_note"] = "lsyncd restarted; %s is live" % short
+            out["reload_note"] = "lsyncd restarted (%s); %s is live" % (strategy, short)
         else:
             out["reload_error"] = ("lsyncd did NOT come back — start it with: "
-                                   "%s" % argv)
+                                   "%s" % (argv if strategy == "respawn"
+                                           else "sudo systemctl restart iteration-mirror"))
     except Exception as exc:
         out["reload_error"] = "%s: %s" % (type(exc).__name__, exc)
     return out

@@ -45,6 +45,16 @@ ck("no lsyncd running against" in r3.get("reload_note", ""),
 r4 = H.run(ctx)
 ck(r4.get("already_present") is True, "linux: IDEMPOTENT on re-run")
 
+# reload strategy: a systemd-owned lsyncd is TERMed and left to systemd
+# (Restart=always); only a hand-started one is respawned. Respawning the
+# systemd one is what left two lsyncds running after every projekt build.
+ck(H._reload_strategy("0::/system.slice/iteration-mirror.service\n") == "systemd",
+   "linux: lsyncd in the unit cgroup -> systemd relaunches, we do NOT respawn")
+ck(H._reload_strategy("0::/user.slice/user-1000.slice/session-3.scope\n") == "respawn",
+   "linux: hand-started lsyncd -> respawn with its own argv")
+ck(H._reload_strategy("") == "respawn", "linux: unreadable cgroup -> respawn (old behaviour)")
+ck(H._pid_cgroup(2**22 + 7) == "", "linux: unknown pid -> empty cgroup, no raise")
+
 # missing conf = report, never invent one
 H.MACOS_CONF = os.path.join(tmp, "nope.conf"); ctx["os"] = "Darwin"
 r5 = H.run(ctx)
