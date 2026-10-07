@@ -45,6 +45,7 @@ from src.core.functions.io.export_session_xml import (
     export_session_xml
 )
 from src.core.functions.create.create_flame_wiretap_node import (
+    check_wiretap_projects_reachable,
     create_flame_wiretap_node
 )
 from src.core.functions.create.create_flame_setup_dirs import (
@@ -105,6 +106,11 @@ class ProjektCreator:
             f"Launch Flame after creation: "
             f"{config.launch_flame_after_creation}"
         )
+
+        # 1.5 bjoin studio: refuse before touching disk if Flame's project
+        #     service is down (otherwise step 6 fails and Flame launches
+        #     into a project that does not exist).
+        check_wiretap_projects_reachable()
 
         # 2. Export Session Variables
         export_session_variables(config.__dict__)
